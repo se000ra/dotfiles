@@ -1,66 +1,166 @@
 " vim: fdm=marker fdc=2 foldlevelstart=0 sts=4 sw=4 tw=64 fileencoding=utf-8:
-set rtp+=~/.vim/vundle.git/ 
+set rtp+=~/.vim/bundle/vundle/ 
 call vundle#rc()
 "Screen совместимость
 set t_Co=256
 set ttymouse=xterm2
-
+" Шпаргалка {{{1
+" ---   Folding  ----
+" za - Toggle       zA - recursively
+" zM - Close all    zR - Open all
+" zx - udate all
+"
+" Функциональные клавиши {{{
 "Text/Code Navigation
 "    F1  Help
 "    F2  Code Explorer
 "    F3  Find Next
 "    F4  
-
 "Explore Buffers and Files
 "    F5  Execute buffer
 "    F6  Buffer Explorer
 "    F7  List of Files in Directory
 "    F8  File Explorer
-
 "Manipulate Windows and Buffers
 "    F9  Restore Last Session
 "    F10 Toggle Fullscreen
 "    F11 Close Current Window
 "    F12 Delete Current Buffer
-
-" ==============================================================================
 " Установленные плагины и их зависимости {{{1
-Bundle "http://github.com/motemen/git-vim.git"
-Bundle "TaskList.vim"
-Bundle "Screen-vim"
-Bundle "ZenCoding.vim"
-Bundle "snipMate"
-#Bundle "Conque-Shell"
-Bundle "taglist.vim"
-Bundle "Source-Explorer-srcexpl.vim"
-Bundle "http://github.com/vim-scripts/matrix.vim--Yang.git"
-" для входа в матрицу ввести команду :Matrix
-Bundle "http://github.com/vim-scripts/The-NERD-Commenter.git"
-Bundle "http://github.com/vim-scripts/The-NERD-tree.git"
-Bundle "mru.vim"
-Bundle "sessionman.vim"
-Bundle "pyflakes.vim"
-Bundle "calendar.vim--Matsumoto" 
-Bundle "FuzzyFinder"
-Bundle "L9"
-Bundle "neocomplcache"
-"Bundle "ropevim"
+
+"============= "SYSTEM"  =============
+Bundle "gmarik/vundle"
+"{{{
+"}}}
+Bundle "scrooloose/nerdtree"
+"{{{
+" Установить положение окна NERDTree, "left" или "right"
+let NERDTreeWinPos = 'right'
+let NERDTreeShowBookmarks = 1
+let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
+let NERDChristmasTree = 0
+"}}}
+Bundle "ctrlp.vim"
+"{{{
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+set wildignore+=*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|gh|svn)$'
+"}}}
 Bundle "easytags.vim"
-Bundle "python.vim--Vasiliev"
+"{{{
+
+let g:easytags_python_enabled = 1 
+"}}}
+Bundle "taglist.vim"
+"{{{
+let g:Tlist_Show_Menu = 0           " Показывать меню (0-выкл/1-вкл)
+let g:Tlist_Show_One_File = 1       " Показывать список тегов только из текущего файла
+let g:Tlist_Enable_Fold_Column = 0  " Показывать колонку свёртки (folding)
+"}}}  
+Bundle "sessionman.vim"
+
+"============= "VIEW" =============
+Bundle "flazz/vim-colorschemes"
+Bundle "ZoomWin"
+   "{{{
+   "in the normal mode <c-w>o :ZoomWin will toggle between
+	"* selecting the current window for display as the only window or
+	"* restoring the original multiple-window view.
+    ""}}}
+"--- libs ---
+Bundle "L9"
+"Bundle "pydave/AsyncCommand"
+"--- productivity ---
 Bundle "vimwiki"
-" }}}
-" ==============================================================================
+"Bundle "mnick/vim-pomodoro"
+"--- git ---
+Bundle "http://github.com/motemen/git-vim.git"
+Bundle "tpope/vim-fugitive"
+"--- python ---
+Bundle "python.vim--Vasiliev"
+"{{{
+
+" Настройка подсветки синтаксиса для python (работает для
+" расширенного syntax файла python)
+let g:python_highlight_all = 1
+let g:python_highlight_indent_errors = 0
+let g:python_highlight_space_errors = 0
+let g:python_highlight_doctests = 0
+"}}}
+Bundle "pyflakes.vim"
+"{{{
+"
+"}}}
+"Bundle "ropevim"
+let g:ropevim_vim_completion = 1
+"--- coding ---
+Bundle "http://github.com/vim-scripts/The-NERD-Commenter.git"
+Bundle "Lokaltog/vim-easymotion"
+"--- vim-easymotion.settings -----"{{{
+let g:EasyMotion_leader_key = '<leader><leader>'
+"}}}
+Bundle "neocomplcache"
+"--- neocomplcache.settings -----"{{{
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_enable_ignore_case = 0
+let g:neocomplcache_snippets_dir = '~/snippets'
+
+" Если не выставить эту опцию то вырезание а затем вставка (в insert mode)
+" через виндовые хоткеи страшно глючит
+let g:neocomplcache_disable_select_mode_mappings = 1
+
+" Включение/отключение автоматики Активация по Ctrl+Space
+let g:neocomplcache_disable_auto_complete = 0
+"}}}
+Bundle "snipMate"
+Bundle "ZenCoding.vim"
+"--- del? ---
+"Bundle "TaskList.vim"
+"Bundle "Source-Explorer-srcexpl.vim"
+" Установка ширины окна SourceExplorer
+let g:SrcExpl_winHeight = 8
+
+" Интервал в миллисекундах (ms) для следующего обновления окна
+let g:SrcExpl_refreshTime = 100
+
+" Установка клавиши отвечающей за переход
+" определению, по умолчанию "Enter"
+let g:SrcExpl_jumpKey = "<ENTER>"
+
+" Установка клавиши отвечающий за обратный переход от
+" определения, назад к коду, по умолчанию "Space"
+let g:SrcExpl_gobackKey = "<SPACE>"
+
+" // In order to Avoid conflicts, the Source Explorer should know what plugins
+" // are using buffers. And you need add their bufname into the list below
+" // according to the command ":buffers!"
+let g:SrcExpl_pluginList = [
+        \ "__Tag_List__",
+        \ "_NERD_tree_",
+        \ "Source_Explorer"
+    \ ]
+" // Enable/Disable the local definition searching, and note that this is not
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
+" // It only searches for a match with the keyword according to command 'gd'
+let g:SrcExpl_searchLocalDef = 1
+
+" Включение опции обновления файла тегов во время открытия окна
+" Source Explorer
+let g:SrcExpl_isUpdateTags = 1
+
+" Параметры вызова ctags
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+
+" Автоматическое обновление файла тегов, после сохранения текущего файла
+autocmd BufWritePost * :execute "silent!" . g:SrcExpl_updateTagsCmd
+"}}}
 " "Primary"                 Приоритетные настройки {{{1
 " ==============================================================================
 
-let s:iswin = has('win32') || has('win64')
-let s:lastsession_file = '~/lastsession.vim'
-
 " Отключение совместимости с vi
 set nocompatible
-
-" Использовать англоязычное меню
-set langmenu=en
 
 " ==============================================================================
 " "Quick"                   Быстрые настройки {{{1
@@ -69,7 +169,6 @@ set langmenu=en
 
 " us - USer option
 let s:us_folding        = 1     " Свертывание участков кода
-let s:us_autosaveses    = 1     " Авто-сохранение сессий (загрузка посл. F6)
 let s:us_linewrap       = 1     " Перенос длинных строк
 let s:us_scratch_buffer = 0     " Сделать из безымянного буфера scratch буфер
 
@@ -160,34 +259,9 @@ set mousehide   " Прятать указатель во время набора
 set cursorline  " Включить подсветку текущей позиции курсора
 set mousemodel=popup
 
-if has('gui_running')
-
-    " Шрифт по умолчанию
-    if s:iswin
-    set gfn=consolas:h11
-    "set gfn=DejaVu_Sans_Mono:h10:cRUSSIAN,consolas:h11
-    elseif has("gui_gtk2")
-        set gfn=DejaVu\ Sans\ Mono\ 10
-    endif
-
-    " Цветовая схема по умолчанию
-    colorscheme tesla
-
-elseif s:iswin
-    colorscheme desert
-else
-    colorscheme wombat256mod
-endif
-
-if s:iswin
-    " Установка высоты и ширины окна
-    winsize 90 30
-endif
-
-"set guioptions+=b   " Включение горизонтального скролл-бара
-"set guioptions-=T   " Убрать toolbar
-"set guioptions+=c   " Отключение графических диалогов
-"set guioptions-=e   " Замена графических табов, текстовыми
+colorscheme wombat256mod
+"colorscheme desert256
+    "colorscheme tesla
 
 set number          " Включение отображения номеров строк
 set shortmess+=I    " Отключение приветственного сообщения
@@ -317,21 +391,6 @@ else
 endif
 
 " ==============================================================================
-" "Sessions"                Сессии {{{1
-" ==============================================================================
-
-" Опции сессий
-set sessionoptions=curdir,buffers,folds,tabpages,winpos,help
-
-" Опции помогают переносить файлы сессий с *nix`ов в ms-windows и наоборот
-set sessionoptions+=unix,slash
-
-if s:us_autosaveses
-    " Авто-сохранение сессии при закрытии vim`a (загрузка F6 в норм. режиме)
-    exec 'autocmd VimLeavePre * silent mksession!' . s:lastsession_file
-endif
-
-" ==============================================================================
 " "LineWrap"                Перенос длинных строк {{{1
 " ==============================================================================
 
@@ -365,17 +424,12 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 " Русская расскладка
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
-" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Cope
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " Do :help cope if you are unsure what cope is. It's super
-" useful!
-map <leader>bc :botright cope<cr>
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
-" just subsitute ESC with ,
-map <leader> ,
 
+" just subsitute ESC with , jk и в рус раскл бб ол не работает
+"inoremap <leader>, <Esc> 
+"inoremap <leader>бб <Esc> 
+inoremap jk <Esc>
+"inoremap ол <Esc>
 "fast copy
 "
 nmap <leader>y "*y
@@ -446,11 +500,11 @@ imap <F8> <esc>:NERDTreeToggle<cr>
 
 " Загрузка последней сессии (работает если в
 " секции "Сессии" определена команда авто-сохранения)
-if s:us_autosaveses
-    exec 'nmap <F9> <esc>:source ' . s:lastsession_file . '<cr>'
-    exec 'vmap <F9> <esc>:source ' . s:lastsession_file . '<cr>'
-    exec 'imap <F9> <esc>:source ' . s:lastsession_file . '<cr>i'
-endif
+"if s:us_autosaveses
+    "exec 'nmap <F9> <esc>:source ' . s:lastsession_file . '<cr>'
+    "exec 'vmap <F9> <esc>:source ' . s:lastsession_file . '<cr>'
+    "exec 'imap <F9> <esc>:source ' . s:lastsession_file . '<cr>i'
+"endif
 
 " Полноэкранный режим (plugin-vimshell)
 "inoremap <F10> <C-o>:Fullscreen<CR>
@@ -564,10 +618,6 @@ noremap <silent> ,mh <C-W>H
 " Move the current window to the bottom of the main Vim window
 noremap <silent> ,mj <C-W>J
 " ==============================================================================
-" "Menu"                    Меню {{{1
-" ==============================================================================
-
-" ==============================================================================
 " "Popup-menu"              Всплывающее меню {{{1
 " ==============================================================================
 
@@ -637,127 +687,7 @@ au MenuPopup * call ToggleFTContextMenu("python","nmenu","PopUp.Find\\ Occurrenc
 au MenuPopup * call ToggleFTContextMenu("python","vmenu","PopUp.Evaluate", "pyinteractive#EvaluateSelected(visualmode())")
 
 " ==============================================================================
-" "Plugin.TList"            {{{1
 " ==============================================================================
-
-let g:Tlist_Show_Menu = 0           " Показывать меню (0-выкл/1-вкл)
-let g:Tlist_Show_One_File = 1       " Показывать список тегов только из текущего файла
-let g:Tlist_Enable_Fold_Column = 0  " Показывать колонку свёртки (folding)
-
-" ==============================================================================
-" "Plugin.NERDTree"         {{{1
-" ==============================================================================
-
-" Установить положение окна NERDTree, "left" или "right"
-let NERDTreeWinPos = 'right'
-
-let NERDTreeShowBookmarks = 1
-let NERDTreeIgnore = ['\~$', '*.pyc', '*.pyo']
-let NERDChristmasTree = 0
-
-" ==============================================================================
-" "Plugin.SourceExplorer"   {{{1
-" ==============================================================================
-
-" Установка ширины окна SourceExplorer
-let g:SrcExpl_winHeight = 8
-
-" Интервал в миллисекундах (ms) для следующего обновления окна
-let g:SrcExpl_refreshTime = 100
-
-" Установка клавиши отвечающей за переход
-" определению, по умолчанию "Enter"
-let g:SrcExpl_jumpKey = "<ENTER>"
-
-" Установка клавиши отвечающий за обратный переход от
-" определения, назад к коду, по умолчанию "Space"
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to Avoid conflicts, the Source Explorer should know what plugins
-" // are using buffers. And you need add their bufname into the list below
-" // according to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_",
-        \ "Source_Explorer"
-    \ ]
-" // Enable/Disable the local definition searching, and note that this is not
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
-" // It only searches for a match with the keyword according to command 'gd'
-let g:SrcExpl_searchLocalDef = 1
-
-" Включение опции обновления файла тегов во время открытия окна
-" Source Explorer
-let g:SrcExpl_isUpdateTags = 1
-
-" Параметры вызова ctags
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-
-" Автоматическое обновление файла тегов, после сохранения текущего файла
-autocmd BufWritePost * :execute "silent!" . g:SrcExpl_updateTagsCmd
-
-" ==============================================================================
-" "Plugin.MRU" {{{1
-" ==============================================================================
-
-" Задание количества отображаемых в меню файлов
-let g:MRU_Max_Entries = 100
-"let g:MRU_Max_Menu_Entries = 20
-let g:MRU_Add_Menu = 0
-"let g:MRU_Window_Height =10 
-"let g:MRU_Max_Submenu_Entries = 15
-" ==============================================================================
-" "Plugin.neocomplcache" {{{1
-" ==============================================================================
-
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_enable_ignore_case = 0
-let g:neocomplcache_snippets_dir = '~/snippets'
-
-" Если не выставить эту опцию то вырезание а затем вставка (в insert mode)
-" через виндовые хоткеи страшно глючит
-let g:neocomplcache_disable_select_mode_mappings = 1
-
-" Включение/отключение автоматики Активация по Ctrl+Space
-let g:neocomplcache_disable_auto_complete = 0
-
-" ==============================================================================
-" "Plugin.ropevim" {{{1
-" ==============================================================================
-
-let g:ropevim_vim_completion = 1
-
-" ==============================================================================
-" "Plugin.pythoncyntax" {{{1
-" ==============================================================================
-
-" Настройка подсветки синтаксиса для python (работает для
-" расширенного syntax файла python)
-let g:python_highlight_all = 1
-let g:python_highlight_indent_errors = 0
-let g:python_highlight_space_errors = 0
-let g:python_highlight_doctests = 0
-
-" ==============================================================================
-" "Plugin.Calendar" {{{1
-" ==============================================================================
-
-let g:calendar_monday = 1   " Неделя начинается с понедельника
-
-
-" ==============================================================================
-" "Plugin.vimwiki" {{{1
-" ==============================================================================
-
-" Меняем дефолтный браузер на лису 
- let g:vimwiki_browsers=['C:\Program Files\Mozilla Firefox\firefox.exe']
- " 
-" ==============================================================================
-" "Plugin.fontsize" {{{1
-" ==============================================================================
-" Slow down mapping timeout from default 1000 milliseconds.
-  set timeoutlen=5000
 
 " ==============================================================================
 " "Functions"               Пользовательские функции {{{1
@@ -906,6 +836,3 @@ endif
 " Показывает значения всех опций, которые отличаются от настроек по умолчанию.
 "   :set
 " ==============================================================================
-"}}}
-
-
