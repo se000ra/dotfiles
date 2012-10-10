@@ -9,7 +9,8 @@ set ttymouse=xterm2
 " za - Toggle       zA - recursively
 " zM - Close all    zR - Open all
 " zx - udate all
-"
+" ,r - показывет регистры памяти    ,<номер> - пастит
+" 
 " Функциональные клавиши {{{
 "Text/Code Navigation
 "    F1  Help
@@ -68,16 +69,20 @@ Bundle "ZoomWin"
 	"* selecting the current window for display as the only window or
 	"* restoring the original multiple-window view.
     ""}}}
-"--- libs ---
-Bundle "L9"
+
+"============= "Libs" =============
+"Bundle "L9"
 "Bundle "pydave/AsyncCommand"
-"--- productivity ---
+
+"============= "Productivity" =============
 Bundle "vimwiki"
 "Bundle "mnick/vim-pomodoro"
-"--- git ---
+
+"============= "Git" =============
 Bundle "http://github.com/motemen/git-vim.git"
 Bundle "tpope/vim-fugitive"
-"--- python ---
+
+"============= "Python" =============
 Bundle "python.vim--Vasiliev"
 "{{{
 
@@ -88,14 +93,40 @@ let g:python_highlight_indent_errors = 0
 let g:python_highlight_space_errors = 0
 let g:python_highlight_doctests = 0
 "}}}
-Bundle "pyflakes.vim"
+"Bundle "pyflakes.vim"
 "{{{
 "
 "}}}
 "Bundle "ropevim"
-let g:ropevim_vim_completion = 1
-"--- coding ---
-Bundle "http://github.com/vim-scripts/The-NERD-Commenter.git"
+"{{{
+"let g:ropevim_vim_completion = 1
+
+" Установка быстрой помощи по K для слова под курсором с помощью pydoc
+" для файлов python (plugin-ropevim)
+"au FileType python nmap <buffer> <S-K> :call RopeShowDoc()<CR>
+
+"function! TabWrapperRope()
+    "if strpart(getline('.'), 0, col('.')-1) =~ '^\s*$'
+      "return "\<Tab>"
+    "else
+        "return "\<C-R>=RopeCodeAssistInsertMode()\<CR>"
+    "endif
+"endfunction
+
+"imap <Tab> <C-R>=TabWrapperRope()<CR>
+
+
+" Переход к определению для файлов python по gd выполняется с
+" помощью rope (Plugin-ropevim)
+"au FileType python nmap <buffer> gd :call RopeGotoDefinition()<CR>
+"}}}
+
+"============= "Coding" =============
+Bundle "scrooloose/nerdcommenter"
+ "{{{
+"vis ,c<space> toggle
+"vis ,cc    закомментировать
+"vis ,cu    разкомментировать"}}}
 Bundle "Lokaltog/vim-easymotion"
 "--- vim-easymotion.settings -----"{{{
 let g:EasyMotion_leader_key = '<leader><leader>'
@@ -105,20 +136,38 @@ Bundle "neocomplcache"
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_enable_ignore_case = 0
-let g:neocomplcache_snippets_dir = '~/snippets'
 
-" Если не выставить эту опцию то вырезание а затем вставка (в insert mode)
-" через виндовые хоткеи страшно глючит
-let g:neocomplcache_disable_select_mode_mappings = 1
+ ""Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
-" Включение/отключение автоматики Активация по Ctrl+Space
-let g:neocomplcache_disable_auto_complete = 0
+"" Включение/отключение автоматики Активация по Ctrl+Space
+""let g:neocomplcache_disable_auto_complete = 0
 "}}}
-Bundle "snipMate"
-Bundle "ZenCoding.vim"
+Bundle 'neocomplcache-snippets_complete'
+"{{{
+" Раскрыть сниппет/переход по сниппету (plugin-neocomplcache)
+imap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
+smap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
+"}}}
+"Bundle "ZenCoding.vim"
 "--- del? ---
-"Bundle "TaskList.vim"
+Bundle "TaskList.vim"
 "Bundle "Source-Explorer-srcexpl.vim"
+""{{{
 " Установка ширины окна SourceExplorer
 let g:SrcExpl_winHeight = 8
 
@@ -155,20 +204,14 @@ let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
 
 " Автоматическое обновление файла тегов, после сохранения текущего файла
 autocmd BufWritePost * :execute "silent!" . g:SrcExpl_updateTagsCmd
-"}}}
-" "Primary"                 Приоритетные настройки {{{1
-" ==============================================================================
+""}}}
 
-" Отключение совместимости с vi
-set nocompatible
-
-" ==============================================================================
 " "Quick"                   Быстрые настройки {{{1
 " ==============================================================================
 " (0 - откл. 1 - вкл.)
 
 " us - USer option
-let s:us_folding        = 1     " Свертывание участков кода
+"let s:us_folding        = 1     " Свертывание участков кода
 let s:us_linewrap       = 1     " Перенос длинных строк
 let s:us_scratch_buffer = 0     " Сделать из безымянного буфера scratch буфер
 
@@ -177,11 +220,21 @@ let s:us_scratch_buffer = 0     " Сделать из безымянного б�
 " ==============================================================================
 
 "source $VIMRUNTIME/mswin.vim            " Windows-like настройки
-"behave mswin
 
 "==============================================================================
 " "Basic"                   Базовые настройки {{{1
 " ==============================================================================
+
+" Отключение совместимости с vi
+set nocompatible
+
+" Включение складок
+set foldenable
+" Ширина колонки
+"set foldcolumn=4
+set foldlevelstart=99
+set foldmethod=indent
+set foldnestmax=3
 
 " Включение подсветки синтаксиса
 syntax on
@@ -261,7 +314,7 @@ set mousemodel=popup
 
 colorscheme wombat256mod
 "colorscheme desert256
-    "colorscheme tesla
+"colorscheme tesla
 
 set number          " Включение отображения номеров строк
 set shortmess+=I    " Отключение приветственного сообщения
@@ -352,44 +405,6 @@ set ignorecase "поменял на регистро независимый ва
 set imsearch=-1
 
 " ==============================================================================
-" "Folding"                 Свертывание блоков текста {{{1
-" ==============================================================================
-
-if s:us_folding
-    " Включение складок
-    set foldenable
-
-    " Ширина колонки
-    "set foldcolumn=4
-
-    " Опция задаёт значение опции 'foldlevel' в начале редактирования нового
-    " буфера в окне. Её полезно использовать для закрытия всех складок в
-    " файле в начале редактирования (при значении 0), закрытия некоторых
-    " складок (при значении от 1) или открывания всех складок (при значении 99)
-    set foldlevelstart=99
-
-    " Опция задаёт метод образования складок для текущего окна.
-    " Список возможных значений:
-    "   manual  Складки создаются вручную.
-    "   indent  Складка формируется строками с одинаковыми отступами.
-    "   expr    Уровень складки для строки задаётся значением опции 'foldexpr'.
-    "   marker  Складки задаются с использованием маркеров.
-    "   syntax  Складки задаются в соответствии с правилами подсветки синтаксиса.
-    "   diff    В складки помещаются неизменённые фрагменты текста
-    set foldmethod=indent
-
-    " Опция назначает максимальное количество вложений складок для методов
-    " "indent" и "syntax". Опция позволяет избежать создания слишком
-    " большого количества складок. Использование значения, большего, чем 20,
-    " не работает, поскольку встроенное ограничение количества вложений в
-    " складках соответствует 20
-    set foldnestmax=3
-
-else
-    set foldmethod=manual
-
-endif
-
 " ==============================================================================
 " "LineWrap"                Перенос длинных строк {{{1
 " ==============================================================================
@@ -430,7 +445,8 @@ set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙ
 "inoremap <leader>бб <Esc> 
 inoremap jk <Esc>
 "inoremap ол <Esc>
-"fast copy
+
+"--- "Fast copy" ------{{{
 "
 nmap <leader>y "*y
 nmap <leader>Y "yy
@@ -447,7 +463,9 @@ nmap <leader>8 "8p
 nmap <leader>9 "9p
 "show registers
 nmap <leader>r :registers<CR>
-" Открытие командной строки помощи (plugin-FuzzyFinder)
+"}}}
+"--- "что висит на функциональных клавишах" ------{{{
+" Открытие командной строки помощи (plugin-FuzzyFinder)"
 map <C-F1> :FufHelp<cr>
 vmap <C-F1> <esc>:FufHelp<cr>
 imap <C-F1> <esc>:FufHelp<cr>
@@ -523,62 +541,20 @@ imap <F12> <esc>:bdelete<cr>
 
 " Создать базу данных для файлов в текущей директории
 map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" CTRL+Space для автозавершения (plugin-neocomplcache)
-"imap <C-Space> <C-X><C-U>
-
-" Использование rope code assist, вместо omni completion
-" для файлов python при нажатии CTRL+Space
-" (plugin-ropevim)
-"au FileType python imap <buffer> <C-space> <C-R>=RopeCodeAssistInsertMode()<cr>
+"}}}
 
 
 " Добавление(Ctrl+Tab)/удаление(Ctrl+Shift+Tab) отступов
-" работает только если выделить текст
-map  ]v          [[V]]
-"map  <C-S-tab>   [[V]]<
-vmap <C-S-tab>   <
-"map  <C-tab>     [[V]]>
-vmap <C-tab>     >
-
-" Раскрыть сниппет/переход по сниппету (plugin-neocomplcache)
-imap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
-smap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
-
-" Поставить/убрать отметку перейти к следующей/предыдущей
-" отметке (plugin-visualmark)
-"nmap mm <Plug>Vm_toggle_sign
-"nmap mn <Plug>Vm_goto_next_sign
-"nmap mp <Plug>Vm_goto_prev_sign
-
-" Пометить/убрать все слова совподающие со словом под курсором (plugin-Mark)
-"nmap <silent>mw :call mark#MarkCurrentWord()<CR>
-
-" Установка быстрой помощи по K для слова под курсором с помощью pydoc
-" для файлов python (plugin-ropevim)
-au FileType python nmap <buffer> <S-K> :call RopeShowDoc()<CR>
-
-"function! TabWrapperRope()
-    "if strpart(getline('.'), 0, col('.')-1) =~ '^\s*$'
-      "return "\<Tab>"
-    "else
-        "return "\<C-R>=RopeCodeAssistInsertMode()\<CR>"
-    "endif
-"endfunction
-
-"imap <Tab> <C-R>=TabWrapperRope()<CR>
+    " работает только если выделить текст
+    " "map  <C-S-tab>   [[V]]<
+    vmap <C-S-tab>   <
+    "map  <C-tab>     [[V]]>
+    vmap <C-tab>     >
 
 
-" Переход к определению для файлов python по gd выполняется с
-" помощью rope (Plugin-ropevim)
-au FileType python nmap <buffer> gd :call RopeGotoDefinition()<CR>
 
- "Комбинации оставленные по умолчанию:
+"--- "навигация по окнам" --- "{{{
 "
-"vis \cc    комментирование выделенного участка кода (plugin-NERD_commenter)
-"vis \cu    разкомментирование выделенного участка кода (plugin-NERD_commenter)
-
-" навигаци по окнам =================================
 " Move the cursor to the window left of the current one
 noremap <silent> ,h :wincmd h<cr>
 
@@ -617,79 +593,7 @@ noremap <silent> ,mh <C-W>H
 
 " Move the current window to the bottom of the main Vim window
 noremap <silent> ,mj <C-W>J
-" ==============================================================================
-" "Popup-menu"              Всплывающее меню {{{1
-" ==============================================================================
-
-" Переключение всплывающего меню neocomplcache
-" (plugin-neocomplcache)
-"nmenu PopUp.Toggle\ Neo\ PopUp\ menu :NeoComplCacheToggle<cr>
-"imenu PopUp.Toggle\ Neo\ PopUp\ menu <esc>:NeoComplCacheToggle<cr>i
-
-" Комментирование/раз комментирование участков текста
-" (plugin-NERDCommenter)
-nmenu PopUp.Source\ Code.Comment :call NERDComment(0,  "alignLeft")<CR>
-vmenu PopUp.Source\ Code.Comment <ESC>:call NERDComment(1, "alignLeft")<CR>
-
-nmenu PopUp.Source\ Code.Uncomment :call NERDComment(0, "uncomment")<CR>
-vmenu PopUp.Source\ Code.Uncomment <ESC>:call NERDComment(1,  "uncomment")<CR>
-
-nmenu PopUp.Source\ Code.Toggle :call NERDComment(0, "toggle")<CR>
-vmenu PopUp.Source\ Code.Toggle <ESC>:call NERDComment(1,  "toggle")<CR>
-
-vmenu PopUp.Source\ Code.-Usrsep1- :
-
-" Добавление/удаление отступов к участкам кода
-" (соотв. горячие клавиши клавиши должны быть определенны)
-"nmenu <silent> PopUp.Source\ Code.Indent\ Block<tab><Ctrl-Tab> <C-tab>
-vmenu <silent> PopUp.Source\ Code.Indent\ Block<tab><C-Tab> <C-tab>
-
-"nmenu <silent>  PopUp.Source\ Code.Dedent\ Block<tab><C-S-Tab> <C-S-tab>
-vmenu <silent>  PopUp.Source\ Code.Dedent\ Block<tab><C-S-Tab> <C-S-tab>
-
-nmenu PopUp.Util.Context\ Help<tab><S-k> <S-k>
-vmenu PopUp.Util.Context\ Help<tab><S-k> <esc><S-k>
-
-" Открыть файл, в качестве имени используется слово под курсором
-nmenu PopUp.Util.Open\ File\ Under\ Cursor<tab>gf gf
-vmenu PopUp.Util.Open\ File\ Under\ Cursor<tab>gf gf
-
-nmenu PopUp.Util.Jump\ Tag\ Under\ Cursor<tab><C-]> g<C-]>
-vmenu PopUp.Util.Jump\ Tag\ Under\ Cursor<tab><C-]> g<C-]>
-
-" Удалить лишние пробельные символы
-nmenu <silent>  PopUp.Util.Clean\ Extra\ Spaces :call <SID>TrimWhiteSpace()<CR>
-
-vmenu PopUp.Util.-Usrsep3- :
-
-" Изменение регистра символов
-vmenu PopUp.Util.Upper\ Case<tab>U U
-vmenu PopUp.Util.Lower\ Case<tab>u u
-vmenu PopUp.Util.Swap\ Case<tab>~ ~
-
-au MenuPopup * call ToggleFTContextMenu("python","menu","PopUp.-Usrsep4-",":")
-
-" Показ документации по объекту python над которым находится курсор
-" (plugin-ropevim)
-au MenuPopup * call ToggleFTContextMenu("python","nmenu","PopUp.Show\\ Documentation<tab><S-k>","RopeShowDoc()")
-au MenuPopup * call ToggleFTContextMenu("python","imenu","PopUp.Show\\ Documentation><S-k>","RopeShowDoc()")
-
-" Поиск места определения объекта под курсором (plugin-ropevim)
-au MenuPopup * call ToggleFTContextMenu("python","imenu","PopUp.Goto\\ Definition<tab>gd","RopeGotoDefinition()")
-au MenuPopup * call ToggleFTContextMenu("python","nmenu","PopUp.Goto\\ Definition<tab>gd","RopeGotoDefinition()")
-
-" Поиск всех мест где используется объект, находящийся под
-" курсором (plugin-ropevim)
-au MenuPopup * call ToggleFTContextMenu("python","imenu","PopUp.Find\\ Occurrences","RopeFindOccurrences()")
-au MenuPopup * call ToggleFTContextMenu("python","nmenu","PopUp.Find\\ Occurrences","RopeFindOccurrences()")
-
-" Выполнить выделенный код (plugin-pyinteractive)
-au MenuPopup * call ToggleFTContextMenu("python","vmenu","PopUp.Evaluate", "pyinteractive#EvaluateSelected(visualmode())")
-
-" ==============================================================================
-" ==============================================================================
-
-" ==============================================================================
+" =============================================================================="}}}
 " "Functions"               Пользовательские функции {{{1
 " ==============================================================================
 
@@ -711,20 +615,6 @@ function! <SID>GetCmdline()
     let s:cmdline=inputdialog("Enter command line parameters:", s:cmdline, s:cmdline)
 endfunction
 
-" Регистрация\удаление контекстного меню для конкретного типа файла
-" lang (str)            - тип файла (например xml)
-" menucommand (str)     - команда меню (например imenu)
-" menuitem (str)        - название пункта меню
-" action (str)          - функция выполняющая действие при
-"                         активации пункта меню
-function! ToggleFTContextMenu(lang, menucommand, menuitem, action)
-    let command = a:menucommand . " " . a:menuitem . " <ESC>:call " . a:action . "<CR>"
-    if &filetype == a:lang
-        execute command
-    else
-        execute "silent! aunmenu " . a:menuitem
-    endif
-endfunction
 
 " Удаление лишних пробелов в файле
 function! <SID>TrimWhiteSpace()
@@ -808,16 +698,6 @@ if s:us_scratch_buffer
         endfunction
     augroup END
 endif
-"function! PythonVarInfoBalloonExpr()
-"    if &filetype!="python"
-"        return ""
-"    endif
-"    v:beval_text
-"endfunction
-
-"set bexpr=PythonVarInfoBalloonExpr()
-"set ballooneval
-
 " ==============================================================================
 " "Fix"                     Способы устранения непоняток с настройками {{{1
 "
