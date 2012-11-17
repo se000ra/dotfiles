@@ -1,4 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
+#to source bashrc  '. .bashrc'
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -85,6 +86,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias edbash='vim ~/dotfiles/bashrc'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -107,4 +109,31 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 # настройка цветов для tmux
 [ -z "$TMUX" ] && export TERM=xterm-256color
+export EDITOR=vim
 
+
+PATH=$PATH:$HOME/src/android-sdk-linux/tools # Androd sdk
+PATH=$PATH:$HOME/src/android-sdk-linux/platform-tools # Androd sdk
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/bin # Add my bin to PATH for scripting
+# добавляем алиасы на лету http://bbs.archlinux.org/viewtopic.php?id=151547
+alias+ () { 
+    if [ $# -eq 2 ]; then 
+        echo "alias $1=\"$2\" #alias+" >> ~/.bashrc;
+        source ~/.bashrc;
+    else 
+        source ~/.bashrc; 
+        echo ""; echo "alias+: list shortcuts"; echo "alias+ x y: add shortcut"; echo "alias- x: delete a shortcut"; echo ""; 
+        grep "^alias " ~/.bashrc | grep "#alias+$" | sed "s/^alias /\x1B[1m/g;s/=\"/\x1B[0m => /g;s/\" #alias+$//g"; echo ""; 
+    fi
+}
+
+alias- () { 
+    (cat ~/.bashrc | grep -v "^alias $1=") > ~/.bashrc.NEW; 
+    mv ~/.bashrc.NEW ~/.bashrc; 
+    unalias $1;
+}
+
+alias untar="tar -xf" #alias+
+
+alias ppp="pwd" #alias+

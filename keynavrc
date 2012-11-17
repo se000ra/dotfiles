@@ -1,0 +1,88 @@
+# This is a keynavrc file. Yours should live in 
+# $HOME/.keynavrc
+#
+# Lines beginning with '#' are comments.
+# Format is:
+#   keysequence cmd1,cmd2,cmd3...
+# 
+# The 'start' command alone is handled specially, in that any key sequence
+# mapped to 'start' will be grabbed when keynav starts up so you can invoke it
+# to activate keynav. The remaining keys are only recognized while keynav is
+# active
+#
+# Project page; http://www.semicomplete.com/projects/keynav
+
+daemonize  # background keynav
+clear      # clear all previous keybindings
+
+#q record ~/.keynav_macros
+#shift+at playback
+#ctrl+semicolon start, sh "exec transset-df -i $(xdotool search --class keynav) 0.3"
+e grid-nav toggle
+Tab restart
+#ctrl+semicolon start
+ctrl+semicolon start,cursorzoom 100 100
+#ctrl+semicolon start,cut-left .95, cut-up .95, move-right 50, move-down 20
+#alt+semicolon start,move-right
+Escape end
+#ctrl+bracketleft end
+#
+shift+h cut-left
+shift+j cut-down
+shift+k cut-up
+shift+l cut-right
+
+# Handy for holding ctrl while using keynav:
+#ctrl+h cut-left
+#ctrl+j cut-down
+#ctrl+k cut-up
+#ctrl+l cut-right
+
+h move-left
+j move-down
+k move-up
+l move-right
+
+ctrl+j click 1
+ctrl+k click 2
+ctrl+l click 3
+#space warp,click 1,end
+space warp
+semicolon warp,end
+
+7 click 1
+8 click 2
+9 click 3
+
+# Zoom to the current window
+w windowzoom
+c cursorzoom 50 50
+a wrap,wrap,cursorzoom 250 250
+s wrap,cursorzoom 100 100
+d wrap,cursorzoom 20 30
+f wrap ,wrap ,cursorzoom 8 12
+#ctrl+w windowzoom
+
+
+### Example using the 'sh' command.
+# This xdotool invocation require xdotool >= 2.20100623 for 'command chaining'
+#g sh "xdotool search --title -- '- Google Chrome' windowactivate key --window 0 --clearmodifiers ctrl+l",end
+
+# Paste!
+p sh "xdotool key shift+Insert",end
+#ctrl+v sh "xdotool key shift+Insert",end
+
+# Activate chrome, make a new tab, paste in the url bar, then press return.
+# This xdotool invocation require xdotool >= 2.20100623 for 'command chaining'
+#t sh "xdotool search --title -- '- Google Chrome' windowactivate --sync key --window 0 --clearmodifiers ctrl+t shift+Insert Return",end
+
+### Drag examples
+# Start drag holding the left mouse button
+v drag 1
+# Start drag holding middle mouse + control and shift
+#w warp
+
+### History
+#a history-back
+u history-back
+

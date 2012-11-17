@@ -4,6 +4,7 @@ call vundle#rc()
 "Screen совместимость
 set t_Co=256
 set ttymouse=xterm2
+let mapleader = ","
 " Шпаргалка {{{1
 " ---   Folding  ----
 " za - Toggle       zA - recursively
@@ -47,6 +48,11 @@ Bundle "ctrlp.vim"
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|gh|svn)$'
+
+" Search and open buffer, files, recent
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>p :CtrlP<CR>
+nnoremap <leader>f :CtrlPMRUFiles<CR>
 "}}}
 Bundle "easytags.vim"
 "{{{
@@ -60,23 +66,25 @@ let g:Tlist_Show_One_File = 1       " Показывать список тего
 let g:Tlist_Enable_Fold_Column = 0  " Показывать колонку свёртки (folding)
 "}}}  
 Bundle "sessionman.vim"
-
+Bundle 'sudo.vim'
 "============= "VIEW" =============
 Bundle "flazz/vim-colorschemes"
 Bundle "ZoomWin"
    "{{{
    "in the normal mode <c-w>o :ZoomWin will toggle between
 	"* selecting the current window for display as the only window or
+noremap <leader>wo <Plug>ZoomWin
 	"* restoring the original multiple-window view.
     ""}}}
 
-"============= "Libs" =============
-"Bundle "L9"
-"Bundle "pydave/AsyncCommand"
-
 "============= "Productivity" =============
 Bundle "vimwiki"
-"Bundle "mnick/vim-pomodoro"
+"{{{
+
+"noremap <leader>tt <Plug>VimwikiToggleListItem
+
+map <leader>tt <Plug>VimwikiToggleListItem
+"}}}
 
 "============= "Git" =============
 Bundle "http://github.com/motemen/git-vim.git"
@@ -93,33 +101,17 @@ let g:python_highlight_indent_errors = 0
 let g:python_highlight_space_errors = 0
 let g:python_highlight_doctests = 0
 "}}}
-"Bundle "pyflakes.vim"
+Bundle "klen/python-mode"
 "{{{
-"
+" Disable pylint checking every save
+let g:pymode_lint_write = 0
+
+" Set key 'R' for run python code
+let g:pymode_run_key = 'R'
+"Key for breakpoint
+let g:pymode_breakpoint_key = 'B' 
 "}}}
-"Bundle "ropevim"
-"{{{
-"let g:ropevim_vim_completion = 1
-
-" Установка быстрой помощи по K для слова под курсором с помощью pydoc
-" для файлов python (plugin-ropevim)
-"au FileType python nmap <buffer> <S-K> :call RopeShowDoc()<CR>
-
-"function! TabWrapperRope()
-    "if strpart(getline('.'), 0, col('.')-1) =~ '^\s*$'
-      "return "\<Tab>"
-    "else
-        "return "\<C-R>=RopeCodeAssistInsertMode()\<CR>"
-    "endif
-"endfunction
-
-"imap <Tab> <C-R>=TabWrapperRope()<CR>
-
-
-" Переход к определению для файлов python по gd выполняется с
-" помощью rope (Plugin-ropevim)
-"au FileType python nmap <buffer> gd :call RopeGotoDefinition()<CR>
-"}}}
+Bundle 'ivanov/vim-ipython'
 
 "============= "Coding" =============
 Bundle "scrooloose/nerdcommenter"
@@ -157,54 +149,29 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 "" Включение/отключение автоматики Активация по Ctrl+Space
 ""let g:neocomplcache_disable_auto_complete = 0
 "}}}
-Bundle 'neocomplcache-snippets_complete'
+Bundle 'Shougo/neosnippet'
 "{{{
 " Раскрыть сниппет/переход по сниппету (plugin-neocomplcache)
 imap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
 "}}}
 "Bundle "ZenCoding.vim"
+Bundle "aperezdc/vim-template"
+Bundle "Rykka/colorv.vim"
+"{{{
+"Press '<leader>ce'(':ColorVEdit') in 'LightSlateGray'
+"}}}
+Bundle "AndrewRadev/inline_edit.vim"
+Bundle 'tshirtman/vim-cython'
+
+
+Bundle 'Gundo'
+"{{{
+nnoremap <F4> :GundoToggle<CR>
+"}}}
+Bundle "https://github.com/PotatoesMaster/i3-vim-syntax.git"
 "--- del? ---
-Bundle "TaskList.vim"
-"Bundle "Source-Explorer-srcexpl.vim"
-""{{{
-" Установка ширины окна SourceExplorer
-let g:SrcExpl_winHeight = 8
 
-" Интервал в миллисекундах (ms) для следующего обновления окна
-let g:SrcExpl_refreshTime = 100
-
-" Установка клавиши отвечающей за переход
-" определению, по умолчанию "Enter"
-let g:SrcExpl_jumpKey = "<ENTER>"
-
-" Установка клавиши отвечающий за обратный переход от
-" определения, назад к коду, по умолчанию "Space"
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to Avoid conflicts, the Source Explorer should know what plugins
-" // are using buffers. And you need add their bufname into the list below
-" // according to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_",
-        \ "Source_Explorer"
-    \ ]
-" // Enable/Disable the local definition searching, and note that this is not
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
-" // It only searches for a match with the keyword according to command 'gd'
-let g:SrcExpl_searchLocalDef = 1
-
-" Включение опции обновления файла тегов во время открытия окна
-" Source Explorer
-let g:SrcExpl_isUpdateTags = 1
-
-" Параметры вызова ctags
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-
-" Автоматическое обновление файла тегов, после сохранения текущего файла
-autocmd BufWritePost * :execute "silent!" . g:SrcExpl_updateTagsCmd
-""}}}
 
 " "Quick"                   Быстрые настройки {{{1
 " ==============================================================================
@@ -288,8 +255,8 @@ set confirm             " Включение диалогов с запроса�
 set completeopt=longest,menuone
 
 " Показывать все возможные кандидаты при авто-завершении команд
-"set nowildmenu
-set wildmode=list:longest,full
+set nowildmenu
+set wildmode=longest,list,full
 
 " Включение проверки орфографии, для русского и английского
 set spelllang=ru_yo,en_us
@@ -301,6 +268,13 @@ set iminsert=0
 " Не перерисовывать окно при работе макросов
 set lazyredraw
 
+" use a seperate file to store history, so it works cross-session
+if exists('&undofile')
+  set undofile
+  set undodir=$HOME/.vim/undofiles
+else
+  echom "no undofiles"
+endif
 " ==============================================================================
 " "View"                    Вид {{{1
 " ==============================================================================
@@ -428,15 +402,20 @@ else
 
 endif
 
+
+
+
 " ==============================================================================
 " "User Shortcuts"          Горячие клавиши {{{1
 " ==============================================================================
 
 " New leader key
-let mapleader = ","
+"let mapleader = ","
+
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
 " Русская расскладка
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
@@ -475,36 +454,45 @@ nmap <F2> <Esc>:TlistToggle<cr>
 vmap <F2> <esc>:TlistToggle<cr>
 imap <F2> <esc><esc>:TlistToggle<cr>
 
-" Найти следующее соответствие, все остальные так же подсвечиваются 
-nmap <F3> :set hlsearch<CR>n
-vmap <F3> <esc> :set hlsearch<CR>n i
-imap <F3> <esc> :set hlsearch<CR>n i
+" Найтиследующее соответствие, все остальные так же подсвечиваются 
+nnoremap <F3> :set invpaste paste?<CR>
+set pastetoggle=<F3>
+set showmode
+"imap <F3> <esc> :set hlsearch<CR>n i
 
 " Отключение подсведки найденных выражений
-nmap <C-F3> :nohlsearch<CR>
-imap <C-F3> <Esc>:nohlsearch<CR>
-vmap <C-F3> <Esc>:nohlsearchi<CR>gv
+"nmap <C-F3> :nohlsearch<CR>
+"imap <C-F3> <Esc>:nohlsearch<CR>
+"vmap <C-F3> <Esc>:nohlsearchi<CR>gv
 
+ "Вставка таймстампа 
+"nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
+"imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
+noremap <F6> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
+inoremap <F6> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
+
+noremap <F7> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**
+inoremap <F7> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**
 " Выполнение/Открытие файла
-nmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>
-vmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>i
-imap <F5> <esc><esc>:call <SID>OpenFileInDefaultApp()<cr>i
+"nmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>
+"vmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>i
+"imap <F5> <esc><esc>:call <SID>OpenFileInDefaultApp()<cr>i
 
 " Просмотр списка буферов (plugin-fuzzyfinder)
-map <F6> :FufBuffer<cr>
-vmap <F6> <esc>:FufBuffer<cr>
-imap <F6> <esc>:FufBuffer<cr>
+"map <F6> :FufBuffer<cr>
+"vmap <F6> <esc>:FufBuffer<cr>
+"imap <F6> <esc>:FufBuffer<cr>
 
 
 " Список файлов в текущей директории (plugin-fuzzyfinder)
-nmap <F7> <esc>:FufFile<cr>
-vmap <F7> <esc>:FufFile<cr>
-imap <F7> <esc>:FufFile<cr>
+"nmap <F7> <esc>:FufFile<cr>
+"vmap <F7> <esc>:FufFile<cr>
+"imap <F7> <esc>:FufFile<cr>
 
 "" Навигатор по коду (plugin-sourceExplorer)
-map <C-F8> :SrcExplToggle<cr>
-vmap <C-F8> <esc>:SrcExplToggle<cr>
-imap <C-F8> <esc>:SrcExplToggle<cr>
+"map <C-F8> :SrcExplToggle<cr>
+"vmap <C-F8> <esc>:SrcExplToggle<cr>
+"imap <C-F8> <esc>:SrcExplToggle<cr>
 
 "" Обновление файла тегов для CodeExplorer (plugin-sourceExplorer)
 "map <C-F8> :call g:SrcExpl_UpdateTags()<cr>
@@ -540,9 +528,8 @@ imap <F12> <esc>:bdelete<cr>
 
 
 " Создать базу данных для файлов в текущей директории
-map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 "}}}
-
 
 " Добавление(Ctrl+Tab)/удаление(Ctrl+Shift+Tab) отступов
     " работает только если выделить текст
@@ -551,6 +538,8 @@ map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
     "map  <C-tab>     [[V]]>
     vmap <C-tab>     >
 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! %!sudo tee > /dev/null %
 
 
 "--- "навигация по окнам" --- "{{{
@@ -593,6 +582,9 @@ noremap <silent> ,mh <C-W>H
 
 " Move the current window to the bottom of the main Vim window
 noremap <silent> ,mj <C-W>J
+
+
+
 " =============================================================================="}}}
 " "Functions"               Пользовательские функции {{{1
 " ==============================================================================
@@ -698,7 +690,9 @@ if s:us_scratch_buffer
         endfunction
     augroup END
 endif
+
 " ==============================================================================
+"
 " "Fix"                     Способы устранения непоняток с настройками {{{1
 "
 " Узнать из какого файла переменная была установлена посл. раз
@@ -716,3 +710,5 @@ endif
 " Показывает значения всех опций, которые отличаются от настроек по умолчанию.
 "   :set
 " ==============================================================================
+"map <leader>tt <Plug>VimwikiToggleListItem
+"inoremap <leader>tt <Plug>VimwikiToggleListItem

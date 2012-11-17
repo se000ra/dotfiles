@@ -8,29 +8,53 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +0 ~/.bashrc
+badd +432 ~/.vimrc
+badd +1 ~/dotfiles/vim/sessions/lastsession.vim
+badd +1 ~/dotfiles/vim/sessions/mytests
 silent! argdel *
-edit ~/.bashrc
+edit ~/.vimrc
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=indent
+setlocal fdm=marker
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=99
+setlocal fdl=0
 setlocal fml=1
 setlocal fdn=3
 setlocal fen
-let s:l = 108 - ((39 * winheight(0) + 24) / 49)
+29
+normal! zo
+51
+normal! zo
+51
+normal! zc
+70
+normal! zo
+79
+normal! zo
+87
+normal! zo
+93
+normal! zo
+109
+normal! zo
+148
+normal! zo
+29
+normal! zc
+156
+normal! zo
+let s:l = 417 - ((416 * winheight(0) + 35) / 71)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-108
-normal! 044l
+417
+normal! 0
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

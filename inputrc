@@ -1,0 +1,12 @@
+set editing-mode vi
+set keymap vi
+#set convert-meta on
+set completion-ignore-case on
+set completion-prefix-display-length 2
+
+#пока не получается заставить работать menu-complete в vi mode
+#These two will make Ctrl-j and Ctrl-k to cycle through the available completions. 
+#Cn"\C-l": clear-screenontrol-j: menu-complete
+#"\C-l": clear-screen
+#TAB: menu-complete
+#"\C-k": menu-complete-backward

@@ -51,8 +51,8 @@ URxvt*color15: #F8FCF8
 #
 # Xft: DejaVu fonts
 #  Fedora/debian packages: dejavu-sans-mono-fonts/ttf-dejavu 
-URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true
-URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
+#URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true
+#URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
 #
 # Xft: Liberation fonts
 #  Fedora/debian packages: liberation-mono-fonts/ttf-liberation
@@ -61,8 +61,8 @@ URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=tr
 #
 # Xft: Terminus fonts
 #  Fedora/debian packages: terminus-fonts/xfonts-terminus
-#URxvt*font: xft:terminus:pixelsize=15
-#URxvt*boldFont: xft:terminus:bold:pixelsize=15
+#URxvt*font: xft:terminus:pixelsize=16
+#URxvt*boldFont: xft:terminus:bold:pixelsize=16
 
 # Traditional fonts - a more traditional font setup in lieu of xft
 #URxvt*font:-*-courier-medium-r-normal-*-14-*-*-*-*-*-iso8859-1

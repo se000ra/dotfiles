@@ -1,0 +1,31 @@
+## This keybindings file is intended for a Microsoft Natural Ergonomic Keyboard 4000.
+## Using it requires installing xbindkeys and xautomation. Enabling the zoom joystick
+## also requires some udev keymap magic.
+
+# Zoom in and out
+"xte 'keydown Control_L' 'mouseclick 4' 'keyup Control_L'"
+c:201 + Release
+"xte 'keydown Control_L' 'mouseclick 5' 'keyup Control_L'"
+c:202 + Release
+
+## Shortcut keys 1-5 (edit these to perform your desired action)
+
+# Shortcut no. 1
+"nautilus"
+c:192
+
+# Shortcut no. 2
+"firefox"
+c:193
+
+# Shortcut no. 3
+"libreoffice"
+c:194
+
+# Shortcut no. 4
+"gedit"
+c:195
+
+#Shortcut no. 5
+"totem"
+c:196
