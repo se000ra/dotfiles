@@ -141,8 +141,6 @@ alias aguu="sudo apt-get update && sudo apt-get upgrade" #alias+
 alias mandr="curlftpfs ftp://192.168.1.130:4545 /home/van/andvan" #alias+
 alias uandr="sudo fusermount -u /home/van/andvan" #alias+
 alias sdeb="sudo dpkg -i" #alias+
-alias gitpu="git push origin master" #alias+
-alias ipp="ipython --pylab=qt" #alias+
 alias ipp="ipython --pylab=qt" #alias+
 alias hgr="history | grep " #alias+
 alias pg="/bin/ps aux | grep" #alias+
