@@ -146,3 +146,4 @@ alias ipp="ipython --pylab=qt" #alias+
 alias ipp="ipython --pylab=qt" #alias+
 alias hgr="history | grep " #alias+
 alias pg="/bin/ps aux | grep" #alias+
+alias gpush="git push origin master" #alias+
