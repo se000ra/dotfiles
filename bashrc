@@ -14,10 +14,12 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
+HISTTIMEFORMAT="%F %T %t"
+#write (-a) and then re-read (-n) the history each time 
+PROMPT_COMMAND="history -a; history -n"
 
-# check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
@@ -111,7 +113,6 @@ fi
 [ -z "$TMUX" ] && export TERM=xterm-256color
 export EDITOR=vim
 
-
 PATH=$PATH:$HOME/src/android-sdk-linux/tools # Androd sdk
 PATH=$PATH:$HOME/src/android-sdk-linux/platform-tools # Androd sdk
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -135,11 +136,13 @@ alias- () {
 }
 
 alias untar="tar -xf" #alias+
-
 alias agi="sudo apt-get install" #alias+
 alias aguu="sudo apt-get update && sudo apt-get upgrade" #alias+
 alias mandr="curlftpfs ftp://192.168.1.130:4545 /home/van/andvan" #alias+
 alias uandr="sudo fusermount -u /home/van/andvan" #alias+
 alias sdeb="sudo dpkg -i" #alias+
-alias wwhh="whoami" #alias+
-alias ppp="pwd" #alias+
+alias gitpu="git push origin master" #alias+
+alias ipp="ipython --pylab=qt" #alias+
+alias ipp="ipython --pylab=qt" #alias+
+alias hgr="history | grep " #alias+
+alias pg="/bin/ps aux | grep" #alias+
