@@ -117,6 +117,24 @@ PATH=$PATH:$HOME/src/android-sdk-linux/tools # Androd sdk
 PATH=$PATH:$HOME/src/android-sdk-linux/platform-tools # Androd sdk
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 PATH=$PATH:$HOME/bin # Add my bin to PATH for scripting
+#раскрашиваем man
+man() {
+env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;31m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[1;32m") \
+        man "$@"
+}
+#оключаем XON/XOFF flow control
+stty -ixon
+
+#добавили autojump 
+[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
+
 # добавляем алиасы на лету http://bbs.archlinux.org/viewtopic.php?id=151547
 alias+ () { 
     if [ $# -eq 2 ]; then 
@@ -145,3 +163,5 @@ alias ipp="ipython --pylab=qt" #alias+
 alias hgr="history | grep " #alias+
 alias pg="/bin/ps aux | grep" #alias+
 alias gpush="git push origin master" #alias+
+alias mkdir="mkdir -pv" #alias+
+alias srb="source ~/.bashrc" #alias+
