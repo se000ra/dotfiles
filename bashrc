@@ -43,7 +43,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -71,6 +71,79 @@ xterm*|rxvt*)
 *)
     ;;
 esac
+#красим промт
+prompt_command () {
+    local GREEN="\[\033[0;32m\]"
+    local CYAN="\[\033[0;36m\]"
+    local BCYAN="\[\033[1;36m\]"
+    local BLUE="\[\033[0;34m\]"
+    local GRAY="\[\033[0;37m\]"
+    local DKGRAY="\[\033[1;30m\]"
+    local WHITE="\[\033[1;37m\]"
+    local RED="\[\033[0;31m\]"
+    local DEFAULT="\[\033[0;39m\]"
+
+    # set an error string for the prompt, if applicable
+    if [ $? -eq 0 ]; then
+        ERRPROMPT=""
+    else
+        ERRPROMPT="($?)"
+    fi
+    #красим git
+    local GP=""
+    local GIT_STATUS=$(git status 2> /dev/null) 
+    if [ -n "GIT_STATUS" ]
+    then 
+        GP=$GP$(git branch --no-color 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/")
+
+        echo $GIT_STATUS | grep modified: > /dev/null 2>&1
+        if [ "$?" -eq "0" ]
+        then GP=$GP"*"
+        fi
+
+        echo $GIT_STATUS | grep deleted: > /dev/null 2>&1
+        if [ "$?" -eq "0" ]
+        then GP=$GP"-"
+        fi
+
+        echo $GIT_STATUS | grep "Untracked files:" > /dev/null 2>&1
+        if [ "$?" -eq "0" ]
+        then GP=$GP"+"
+        fi
+
+        echo $GIT_STATUS | grep "Unmerged paths" > /dev/null 2>&1
+        if [ "$?" -eq "0" ]
+        then GP=$GP"|m|"
+        fi
+    fi
+    #local LOAD=`cut -d' ' -f1 /proc/loadavg`
+    #local TIME=`date +"%d.%m.%Y %H:%M:%S"`
+    local TIME=`date +"%H:%M"`
+    local CURENT_PATH=`echo ${PWD/#$HOME/\~}`
+ 
+    # trim long path
+    if [ ${#CURENT_PATH} -gt "35" ]; then
+        let CUT=${#CURENT_PATH}-35
+        CURENT_PATH="…$(echo -n $PWD | sed -e "s/\(^.\{$CUT\}\)\(.*\)/\2/")"
+    fi
+ 
+    #local BC="╚("#₪₪├i┐└┴┬├─╟┼─╼卐→│└──>─■_╼ )─╼╰ _╭echo "⮀ ± ⭠ ➦ ✔ ✘ ⚡"(
+    #local BC="╚═"╞╟╚╔╩╦╠═ ╬⇐ ╬⇒ …»»☭   ╾──╼>      ╰▬═►
+    local TC="╭"
+    local BC="╰╼ "
+
+    PROMPT="${TIME} ${GP} $ERRPROMPT ${CURENT_PATH}"
+    local SEPARATOR=""
+    let FILLS=${COLUMNS}-${#PROMPT}+0-2
+    for (( i=0; i<$FILLS; i++ )) do
+        SEPARATOR=$SEPARATOR"─"
+    done
+
+    TOP_LINE="${DKGRAY}${TC}(${CYAN}${TIME}${DKGRAY})${RED}$ERRPROMPT${GREEN}${GP} ${GRAY}${CURENT_PATH} ${DKGRAY}${SEPARATOR}"
+    local BOTTOM_LINE="${DKGRAY}${BC} ${DEFAULT}"
+    export PS1="${TOP_LINE}\n${BOTTOM_LINE}"
+}
+PROMPT_COMMAND=prompt_command
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
