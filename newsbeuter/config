@@ -1,0 +1,49 @@
+# googlereader integr
+urls-source "googlereader"
+include "~/.newsbeuter/key"
+#googlereader-show-special-feeds "no"
+googlereader-flag-star "b"
+googlereader-min-items 100
+
+# reloading
+refresh-on-startup no
+auto-reload no
+#auto-reload yes
+#reload-time 360 # minutes
+reload-only-visible-feeds yes
+reload-threads 8
+#show-read-feeds no
+download-retries 2
+save-path "~/Downloads/newsbeuterDL"
+# notification
+#notify-screen yes
+#notify-xterm yes
+
+# storage
+#max-items 200
+
+# external programs - ff is a firefox wrapper
+#browser 'lynx'
+
+# display
+#article-sort-order date-desc
+feedlist-format "%S%n %11u %t"
+articlelist-format "%D %f %?T?;%-17T; ?%t"
+datetime-format %m-%d
+color background white black
+color listnormal white black
+color listfocus black white
+color info black white
+color article white black
+
+# interface
+confirm-exit yes
+bind-key k up
+bind-key j down
+bind-key l open
+bind-key h quit
+bind-key L toggle-show-read-feeds
+bind-key O open-in-browser-and-mark-read
+bind-key a edit-flags 
+#macros
+macro b edit-flags "b"

@@ -85,9 +85,6 @@ Bundle "vimwiki"
 
 map <leader>tt <Plug>VimwikiToggleListItem
 "}}}
-Bundle 'GoogleReader.vim'
-"{{{
-"}}}
 "============= "Git" =============
 Bundle "http://github.com/motemen/git-vim.git"
 Bundle "tpope/vim-fugitive"
@@ -157,7 +154,7 @@ Bundle 'Shougo/neosnippet'
 imap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
 "}}}
-"Bundle "ZenCoding.vim"
+Bundle "ZenCoding.vim"
 Bundle "aperezdc/vim-template"
 Bundle "Rykka/colorv.vim"
 "{{{
