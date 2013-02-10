@@ -85,7 +85,9 @@ Bundle "vimwiki"
 
 map <leader>tt <Plug>VimwikiToggleListItem
 "}}}
-
+Bundle 'GoogleReader.vim'
+"{{{
+"}}}
 "============= "Git" =============
 Bundle "http://github.com/motemen/git-vim.git"
 Bundle "tpope/vim-fugitive"

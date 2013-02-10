@@ -1,7 +1,20 @@
 "hg6825
 
 loadplugins '\.(js|penta)$'
-group user
-set guioptions=bCs
+  set guioptions=bCs
+  set noerrorbells
+  set novisualbell
+  " highlight all search matches, not just the first
+  set hlfind
+" find as you type
+  set incfind
+" only consider case if an upper case char is used
+  set findcase=smart
+" list closed tabs
+  nmap <Leader>u :undo<Space>
+"set passkeys+='www.google.com/reader':jkAnpXaOslSDvmerfu12/a?<CR>,gh,gs,gS,gu
+"MAPPING
+  nmap H :tabprevious<CR>
+  nmap L :tabnext<CR>
 
-" vim: set ft=pentadactyl:
+" vim: set ft=vim
