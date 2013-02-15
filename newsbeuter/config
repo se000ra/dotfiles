@@ -3,7 +3,7 @@ urls-source "googlereader"
 include "~/.newsbeuter/key"
 #googlereader-show-special-feeds "no"
 googlereader-flag-star "b"
-googlereader-min-items 100
+googlereader-min-items 300
 
 # reloading
 refresh-on-startup no
@@ -29,7 +29,7 @@ save-path "~/Downloads/newsbeuterDL"
 #article-sort-order date-desc
 feedlist-format "%S%n %11u %t"
 articlelist-format "%D %f %?T?;%-17T; ?%t"
-datetime-format %m-%d
+datetime-format %y-%m-%d
 color background white black
 color listnormal white black
 color listfocus black white

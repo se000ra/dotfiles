@@ -208,6 +208,11 @@ stty -ixon
 #добавили autojump 
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
 
+#настройка todo.txt.cli
+source /home/van/src/todo.txt-cli/todo_completion
+complete -F _todo t
+export TODOTXT_DEFAULT_ACTION=ls
+
 # добавляем алиасы на лету http://bbs.archlinux.org/viewtopic.php?id=151547
 alias+ () { 
     if [ $# -eq 2 ]; then 
@@ -238,3 +243,13 @@ alias pg="/bin/ps aux | grep" #alias+
 alias gpush="git push origin master" #alias+
 alias mkdir="mkdir -pv" #alias+
 alias srb="source ~/.bashrc" #alias+
+alias stp="mypo &" #alias+
+alias pingg="ping -c 3 google.com" #alias+
+alias cal="calcurse" #alias+
+alias du="ncdu" #alias+
+alias top="htop" #alias+
+alias t="todo.sh -d /home/van/pr/todo/todo.cfg" #alias+
+alias punch="python /home/van/src/punch-time-tracking-1.3/Punch.py" #alias+
+alias ta="t add" #alias+
+alias pin="punch in" #alias+
+alias pin="python /home/van/src/punch-time-tracking-1.3/Punch.py in" #alias+

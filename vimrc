@@ -66,7 +66,7 @@ let g:Tlist_Show_One_File = 1       " Показывать список тего
 let g:Tlist_Enable_Fold_Column = 0  " Показывать колонку свёртки (folding)
 "}}}  
 Bundle "sessionman.vim"
-Bundle 'sudo.vim'
+"Bundle 'sudo.vim'
 "============= "VIEW" =============
 Bundle "flazz/vim-colorschemes"
 Bundle "ZoomWin"
@@ -78,6 +78,10 @@ noremap <leader>wo <Plug>ZoomWin
     ""}}}
 
 "============= "Productivity" =============
+
+Bundle 'Vimtodo'
+"{{{
+"}}}
 Bundle "vimwiki"
 "{{{
 
@@ -470,7 +474,7 @@ set showmode
 noremap <F6> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
 inoremap <F6> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
 
-noremap <F7> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**
+noremap <F7> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**<Esc>o
 inoremap <F7> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**
 " Выполнение/Открытие файла
 "nmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>
@@ -538,7 +542,7 @@ imap <F12> <esc>:bdelete<cr>
     vmap <C-tab>     >
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! %!sudo tee > /dev/null %
+cmap w!! w !sudo tee >/dev/null %
 
 
 "--- "навигация по окнам" --- "{{{

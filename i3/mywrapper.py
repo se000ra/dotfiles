@@ -55,7 +55,10 @@ if __name__ == '__main__':
         j = json.loads(line)
         # insert information into the start of the json, but could be anywhere
         # CHANGE THIS LINE TO INSERT SOMETHING ELSE
-        j.insert(0, {'full_text' : '%s' % 'some text', 'name' : 'gov'})
+        j.insert(0, {
+            #'full_text' : '%s' % 'some text',
+            'full_text' : 'some text',
+            'name' : 'gov'})
         #j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))
