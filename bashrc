@@ -231,6 +231,24 @@ alias- () {
     unalias $1;
 }
 
+#git aliases
+#alias gst='git status'
+alias gs='git status'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff | mate'
+alias gau='git add --update'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gcot='git checkout -t'
+alias gcotb='git checkout --track -b'
+alias glog='git log'
+alias glogp='git log --pretty=format:"%h %s" --graph'
+#-----------
 alias untar="tar -xf" #alias+
 alias agi="sudo apt-get install" #alias+
 alias aguu="sudo apt-get update && sudo apt-get upgrade" #alias+
@@ -240,7 +258,7 @@ alias sdeb="sudo dpkg -i" #alias+
 alias ipp="ipython --pylab=qt" #alias+
 alias hgr="history | grep " #alias+
 alias pg="/bin/ps aux | grep" #alias+
-alias gpush="git push origin master" #alias+
+#alias gpush="git push origin master" #alias+
 alias mkdir="mkdir -pv" #alias+
 alias srb="source ~/.bashrc" #alias+
 alias stp="mypo &" #alias+
@@ -253,3 +271,5 @@ alias punch="python /home/van/src/punch-time-tracking-1.3/Punch.py" #alias+
 alias ta="t add" #alias+
 alias pin="punch in" #alias+
 alias pin="python /home/van/src/punch-time-tracking-1.3/Punch.py in" #alias+
+alias r="ranger" #alias+
+alias tt="type" #alias+
