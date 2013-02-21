@@ -234,20 +234,33 @@ alias- () {
 #git aliases
 #alias gst='git status'
 alias gs='git status'
-alias gl='git pull'
-alias gp='git push'
-alias gd='git diff'
+
+alias ga='git add '
+alias gaa='git add . '
 alias gau='git add --update'
-alias gc='git commit -v'
-alias gca='git commit -v -a'
+
 alias gb='git branch'
 alias gba='git branch -a'
-alias gco='git checkout'
-alias gcob='git checkout -b'
-alias gcot='git checkout -t'
-alias gcotb='git checkout --track -b'
+
+#alias gl='git pull'
+#alias gp='git push'
+
+alias gd='git diff'
+
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+
+alias go='git checkout'
+alias gob='git checkout -b'
+#alias gcot='git checkout -t'
+#alias gcotb='git checkout --track -b'
 alias glog='git log'
 alias glogp='git log --pretty=format:"%h %s" --graph'
+alias glogpa='git log --pretty=format:"%h %s" --graph --all'
+
+alias gti='git'
+alias g='git'
+complete -F _git g
 #-----------
 alias untar="tar -xf" #alias+
 alias agi="sudo apt-get install" #alias+
@@ -270,6 +283,8 @@ alias t="todo.sh -d /home/van/pr/todo/todo.cfg" #alias+
 alias punch="python /home/van/src/punch-time-tracking-1.3/Punch.py" #alias+
 alias ta="t add" #alias+
 alias pin="punch in" #alias+
-alias pin="python /home/van/src/punch-time-tracking-1.3/Punch.py in" #alias+
+#alias pin="python /home/van/src/punch-time-tracking-1.3/Punch.py in" #alias+
 alias r="ranger" #alias+
 alias tt="type" #alias+
+alias mkdri="mkdir" #alias+
+alias vimes="vim -u /home/van/dotfiles/essential.vim" #alias+

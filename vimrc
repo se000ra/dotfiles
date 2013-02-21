@@ -5,6 +5,7 @@ call vundle#rc()
 set t_Co=256
 set ttymouse=xterm2
 let mapleader = ","
+noremap \ ,
 " Шпаргалка {{{1
 " ---   Folding  ----
 " za - Toggle       zA - recursively
@@ -159,6 +160,7 @@ imap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-j> <Plug>(neocomplcache_snippets_expand)
 "}}}
 Bundle "ZenCoding.vim"
+Bundle "surround.vim"
 Bundle "aperezdc/vim-template"
 Bundle "Rykka/colorv.vim"
 "{{{
@@ -167,6 +169,7 @@ Bundle "Rykka/colorv.vim"
 Bundle "AndrewRadev/inline_edit.vim"
 Bundle 'tshirtman/vim-cython'
 
+Bundle 'Indent-Guides'
 
 Bundle 'Gundo'
 "{{{
@@ -227,7 +230,7 @@ set backspace=indent,eol,start
 set whichwrap+=<,>,[,]
 
 " История команд
-set history=150
+set history=300
 
 " Максимальное количество изменений, которые могут быть отменены
 set undolevels=5000
@@ -299,6 +302,7 @@ set showtabline=2   " Показывать по умлочанию строку 
 set wildmenu        " Показывать меню в командной строке
                     " для выбора вариантов авто-дополнения
 set showmatch       " Довсвечивать совпадающую скобку
+runtime macros/matchit.vim "jump between matching keywords
 set list            " Подсвечивать некоторые символы
 
 " Установка символов для подсветки
@@ -327,15 +331,16 @@ set stl+=%*\
 set stl+=[%{&ft} " Тип файла, загруженного в буфер, например [cpp]
 set stl+=\ \|\
 set stl+=%{&fileencoding} " Кодировка файла
+set stl+=\ %{fugitive#statusline()}\  "статус git
 set stl+=\ \|\
 set stl+=%{&ff}] " Формат файла
 set stl+=%=      " Выравнивание по правому краю
 set stl+=\
-set stl+=Line:
+set stl+=L:
 set stl+=\ %l/   " Номер строки
 set stl+=%L      " Количество строк в буфере
 set stl+=\
-set stl+=Col:
+set stl+=C:
 set stl+=\ %3v   " Номер колонки
 set stl+=\
 set stl+=[%P]    " Позиция текста, отображаемого в окне
@@ -419,6 +424,9 @@ endif
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
+" mute search highligting
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+
 " Русская расскладка
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
@@ -430,9 +438,10 @@ inoremap jk <Esc>
 
 "--- "Fast copy" ------{{{
 "
-nmap <leader>y "*y
+nmap <leader>y "*y "copy to X11 primary
 nmap <leader>Y "yy
-nmap <leader>p "*p
+nmap <leader>p "*p " пастим из X11 primary
+
 nmap <leader>0 "0p
 nmap <leader>1 "1p
 nmap <leader>2 "2p
@@ -457,20 +466,11 @@ nmap <F2> <Esc>:TlistToggle<cr>
 vmap <F2> <esc>:TlistToggle<cr>
 imap <F2> <esc><esc>:TlistToggle<cr>
 
-" Найтиследующее соответствие, все остальные так же подсвечиваются 
 nnoremap <F3> :set invpaste paste?<CR>
 set pastetoggle=<F3>
 set showmode
-"imap <F3> <esc> :set hlsearch<CR>n i
-
-" Отключение подсведки найденных выражений
-"nmap <C-F3> :nohlsearch<CR>
-"imap <C-F3> <Esc>:nohlsearch<CR>
-"vmap <C-F3> <Esc>:nohlsearchi<CR>gv
 
  "Вставка таймстампа 
-"nmap <F4> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
-"imap <F4> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 noremap <F6> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
 inoremap <F6> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
 
@@ -534,16 +534,8 @@ imap <F12> <esc>:bdelete<cr>
 "map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 "}}}
 
-" Добавление(Ctrl+Tab)/удаление(Ctrl+Shift+Tab) отступов
-    " работает только если выделить текст
-    " "map  <C-S-tab>   [[V]]<
-    vmap <C-S-tab>   <
-    "map  <C-tab>     [[V]]>
-    vmap <C-tab>     >
-
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee >/dev/null %
-
 
 "--- "навигация по окнам" --- "{{{
 "
