@@ -116,7 +116,7 @@ let g:pymode_run_key = 'R'
 let g:pymode_breakpoint_key = 'B' 
 "}}}
 Bundle 'ivanov/vim-ipython'
-
+"Bundle 'davidhalter/jedi-vim'
 "============= "Coding" =============
 Bundle "scrooloose/nerdcommenter"
  "{{{
@@ -176,6 +176,8 @@ Bundle 'Gundo'
 nnoremap <F4> :GundoToggle<CR>
 "}}}
 Bundle "https://github.com/PotatoesMaster/i3-vim-syntax.git"
+Bundle 'abolish.vim'
+Bundle 'Arduino-syntax-file'
 "--- del? ---
 
 

@@ -1,12 +1,13 @@
 # googlereader integr
-urls-source "googlereader"
-include "~/.newsbeuter/key"
+#urls-source "googlereader"
+#include "~/.newsbeuter/key"
 #googlereader-show-special-feeds "no"
-googlereader-flag-star "b"
-googlereader-min-items 300
+#googlereader-flag-star "b"
+#googlereader-min-items 300
 
 # reloading
-refresh-on-startup no
+#refresh-on-startup no
+refresh-on-startup yes
 auto-reload no
 #auto-reload yes
 #reload-time 360 # minutes
@@ -29,7 +30,8 @@ save-path "~/Downloads/newsbeuterDL"
 #article-sort-order date-desc
 feedlist-format "%S%n %11u %t"
 articlelist-format "%D %f %?T?;%-17T; ?%t"
-datetime-format %y-%m-%d
+#datetime-format %y-%m-%d
+datetime-format %m-%d
 color background white black
 color listnormal white black
 color listfocus black white

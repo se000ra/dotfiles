@@ -13,8 +13,70 @@ loadplugins '\.(js|penta)$'
 " list closed tabs
   nmap <Leader>u :undo<Space>
 "set passkeys+='www.google.com/reader':jkAnpXaOslSDvmerfu12/a?<CR>,gh,gs,gS,gu
+"set passkeys+='www.google.com/reader':jknpNPXo<CR><space>O-=slSDvtmAeghasufFTdrfu12/a?
+set passkeys+='www.google.com/reader':npNPXo<CR><space>O-=sDtmAgsuTru12/a?
+set passkeys+='bazqux.com':np<CR><space>ugxlLmAaov/f12345h
+
+" Pattern for next/prev links
+set nextpattern=\\След,\\bdalej,\\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b
+set previouspattern=\\Пред,\\bwstecz,\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$
+
 "MAPPING
   nmap H :tabprevious<CR>
   nmap L :tabnext<CR>
+  nmap <Leader>r -ex open www.google.com/reader
 
-" vim: set ft=vim
+"yrillic letters:
+
+map Ф A
+map И B
+map С C
+map В D
+map У E
+map А F
+map П G
+map Р H
+map Ш I
+map О J
+map Л K
+map Д L
+map Ь M
+map Т N
+map Щ O
+map З P
+map Й Q
+map К R
+map Ы S
+map Е T
+map Г U
+map М V
+map Ц W
+map Ч X
+map Н Y
+map Я Z
+map ф a
+map и b
+map с c
+map в d
+map у e
+map а f
+map п g
+map р h
+map ш i
+map о j
+map л k
+map д l
+map ь m
+map т n
+map щ o
+map з p
+map й q
+map к r
+map ы s
+map е t
+map г u
+map м v
+map ц w
+map ч x
+map н y
+map я z

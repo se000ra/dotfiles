@@ -213,6 +213,9 @@ source /home/van/src/todo.txt-cli/todo_completion
 complete -F _todo t
 export TODOTXT_DEFAULT_ACTION=ls
 
+# view images in the console
+#w3mimg () { w3m -o imgdisplay=/usr/lib/w3m/w3mimgdisplay $1 }
+
 # добавляем алиасы на лету http://bbs.archlinux.org/viewtopic.php?id=151547
 alias+ () { 
     if [ $# -eq 2 ]; then 
@@ -288,3 +291,4 @@ alias r="ranger" #alias+
 alias tt="type" #alias+
 alias mkdri="mkdir" #alias+
 alias vimes="vim -u /home/van/dotfiles/essential.vim" #alias+
+alias spi="sudo pip install" #alias+
