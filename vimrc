@@ -95,14 +95,8 @@ set linebreak
 " Включение подсветки синтаксиса
 syntax on
 
-" Включение определения типов файлов
-"filetype on
-"filetype plugin on
-"filetype indent on
-
 " Отключение оповещения морганием и звуком
 set novisualbell
-"set t_vb=
 
 set helplang=en,ru
 
@@ -112,14 +106,6 @@ set backspace=indent,eol,start
 " Перемещать курсор на следующую строку при нажатии на клавиши вправо-влево и пр.
 set whichwrap+=<,>,[,]
 
-" История команд
-set history=300
-
-" Максимальное количество изменений, которые могут быть отменены
-set undolevels=5000
-
-" Не создавать резервные копии файлов
-set nobackup
 
 " Кодировка по умолчанию
 set encoding=utf-8
@@ -143,9 +129,6 @@ set confirm             " Включение диалогов с запроса�
 " Опции авто-дополнения
 set completeopt=longest,menuone
 
-" Показывать все возможные кандидаты при авто-завершении команд
-set nowildmenu
-set wildmode=longest,list,full
 
 " Включение проверки орфографии, для русского и английского
 set spelllang=ru_yo,en_us
@@ -157,14 +140,72 @@ set iminsert=0
 " Не перерисовывать окно при работе макросов
 set lazyredraw
 
-" use a seperate file to store history, so it works cross-session
-if exists('&undofile')
-  set undofile
-  set undodir=$HOME/.vim/undofiles
-else
-  echom "no undofiles"
-endif
 " }}}
+
+" Wildmenu {{{
+
+set wildmenu                        " Command line autocompletion
+set wildmode=list:longest,full      " Shows all the options
+
+" Показывать все возможные кандидаты при авто-завершении команд
+"set nowildmenu
+"set wildmode=longest,list,full
+
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.bak,*.?~,*.??~,*.???~,*.~      " Backup files
+set wildignore+=*.luac                           " Lua byte code
+set wildignore+=*.jar                            " java archives
+set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.stats                          " Pylint stats
+set wildignore+=*.so,*.swp,*.zip
+
+" }}}
+" Searching {{{
+
+set incsearch                   " incremental searching
+set showmatch                   " show pairs match
+set hlsearch                    " highlight search results
+set smartcase                   " smart case ignore
+set ignorecase                  " ignore case letters
+
+" В режиме поиска используется раскладка, заданная по умолчанию
+"set imsearch=-1
+" }}}
+
+" History and permanent undo levels {{{
+
+set history=1000
+set undofile
+set undoreload=1000
+
+" }}}
+
+" Make a dir if no exists {{{
+
+function! MakeDirIfNoExists(path)
+    if !isdirectory(expand(a:path))
+        call mkdir(expand(a:path), "p")
+    endif
+endfunction
+
+" }}}
+
+" Backups {{{
+
+set backup
+set noswapfile
+set backupdir=$HOME/.vim/tmp/backup/
+set undodir=$HOME/.vim/tmp/undo/
+set directory=$HOME/.vim/tmp/swap/
+set viminfo+=n$HOME/.vim/tmp/viminfo
+
+" make this dirs if no exists previously
+silent! call MakeDirIfNoExists(&undodir)
+silent! call MakeDirIfNoExists(&backupdir)
+silent! call MakeDirIfNoExists(&directory)
+
+" }}}
+
 " "View"                    Вид {{{
 " ==============================================================================
 
@@ -192,6 +233,18 @@ set list            " Подсвечивать некоторые символы
 set list listchars=tab:▹·,trail:·,extends:»,precedes:«,nbsp:×
 "set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 " }}}
+
+" "Indent"                  Отступы и табуляция {{{
+" ==============================================================================
+
+set autoindent                          " Наследовать отступы предыдущей строки
+"set smartindent                         " Включить 'умные' отступы
+set expandtab                           " Преобразование таба в пробелы
+set shiftwidth=4                        " Размер табуляции по умолчанию
+set softtabstop=4
+set tabstop=4
+" }}}
+
 " "Statusline"               Статусная строка {{{
 " ==============================================================================
 
@@ -244,52 +297,23 @@ set statusline+=%{StatuslineTabWarning()}
 set statusline+=%*
 " }}}
 
-" ==============================================================================
-" "Indent"                  Отступы и табуляция {{{
-" ==============================================================================
-
-set autoindent                          " Наследовать отступы предыдущей строки
-"set smartindent                         " Включить 'умные' отступы
-set expandtab                           " Преобразование таба в пробелы
-set shiftwidth=4                        " Размер табуляции по умолчанию
-set softtabstop=4
-set tabstop=4
-" }}}
-
-" ==============================================================================
-" "Search"                  Поиск текста {{{
-" ==============================================================================
-
-set hlsearch        " Включение подсветки слов при поиске
-set incsearch       " Использовать поиск по мере набора
-
-" Использовать регистра-зависимый поиск (для 
-" регистра-независимого использовать \с в конце строки шаблона)
-"set noignorecase
-set ignorecase "поменял на регистро независимый ван
-
-" В режиме поиска используется раскладка, заданная по умолчанию
-set imsearch=-1
-
-" }}}
-" ==============================================================================
-" ==============================================================================
-
-
-" ==============================================================================
 " "User Shortcuts"          Горячие клавиши {{{
 " ==============================================================================
-
-" New leader key
-"let mapleader = ","
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
+"Autoload configuration when this file changes ($MYVIMRC)
+autocmd! BufWritePost vimrc source %
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+"cmap w!! w !sudo tee >/dev/null %
+cmap W w !sudo tee % >/dev/null<CR>
+
 " mute search highligting
-"nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <silent> <space>l :<C-u>nohlsearch<CR><C-l>
+"map <silent><Leader>l :set invhlsearch<CR>
 
 "используем ranger как filechooser
 map <leader>r :call RangerChooser()<CR>
@@ -298,11 +322,6 @@ map <leader>r :call RangerChooser()<CR>
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
 " just subsitute ESC with , jk и в рус раскл бб ол не работает
-"inoremap <leader>, <Esc> 
-
-"inoremap <leader>бб <Esc> 
-inoremap jk <Esc>
-"inoremap <C-j><C-k> <Esc>
 inoremap ii <Esc>
 vnoremap ii <Esc>
 vnoremap шш <Esc>
@@ -391,9 +410,6 @@ inoremap <F7> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**
 "vmap <F12> <esc>:bdelete<cr>
 "imap <F12> <esc>:bdelete<cr>
 
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-"cmap w!! w !sudo tee >/dev/null %
-cmap W w !sudo tee % >/dev/null<CR>
 
 "--- "навигация по окнам" --- "{{{
 "
@@ -444,17 +460,61 @@ noremap <silent> ,mj <C-W>J
 " ==============================================================================
 
 let s:cmdline = ""
-"используем ranger для октрытия файлов
+
+" Use Ranger as a file explorer {{{
+
 fun! RangerChooser()
-    silent !ranger --choosefile=/tmp/chosenfile `[ -z '%' ] && echo -n . || dirname %`
+    exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
     if filereadable('/tmp/chosenfile')
-    exec 'edit ' . system('cat /tmp/chosenfile')
-    call system('rm /tmp/chosenfile')
+        exec 'edit ' . system('cat /tmp/chosenfile')
+        call system('rm /tmp/chosenfile')
     endif
     redraw!
 endfun
-"map ,r :call RangerChooser()<CR>
+"map <Leader>r :call RangerChooser()<CR>
+" }}}
 
+
+" Toggle line numbers {{{
+
+"nnoremap <silent><Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
+
+function! ToggleRelativeAbsoluteNumber()
+  if !&number && !&relativenumber
+      set number
+      set norelativenumber
+  elseif &number && !&relativenumber
+      set nonumber
+      set relativenumber
+  elseif !&number && &relativenumber
+      set number
+      set relativenumber
+  elseif &number && &relativenumber
+      set nonumber
+      set norelativenumber
+  endif
+endfunction
+
+" }}}
+
+" Toggle the Quickfix window {{{
+
+function! s:QuickfixToggle()
+    for i in range(1, winnr('$'))
+        let bnum = winbufnr(i)
+        if getbufvar(bnum, '&buftype') == 'quickfix'
+            cclose
+            lclose
+            return
+        endif
+    endfor
+    copen
+endfunction
+command! ToggleQuickfix call <SID>QuickfixToggle()
+
+nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
+
+" }}}
 " Открытие файла приложением определённым по умолчанию
 function! s:OpenFileInDefaultApp()
     if s:cmdline == ""
@@ -547,7 +607,7 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 "------ "ctrlp.vim"
 "{{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-set wildignore+=*.so,*.swp,*.zip
+"set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|gh|svn)$'
 
 " Search and open buffer, files, recent
