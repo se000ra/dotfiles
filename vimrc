@@ -10,6 +10,9 @@ set ttymouse=xterm2
 let mapleader = ","
 noremap \ ,
 " Шпаргалка {{{1
+" todo setup git plugins 
+" todo make vimset section like castro vimrc
+"
 " ---   Folding  ----
 " za - Toggle       zA - recursively
 " zM - Close all    zR - Open all
