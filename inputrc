@@ -1,12 +1,41 @@
 set editing-mode vi
-set keymap vi
-#set convert-meta on
-set completion-ignore-case on
-set completion-prefix-display-length 2
+#show al keymap 
+#$ bind -P
+#show all completions 
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
 
-#пока не получается заставить работать menu-complete в vi mode
+set completion-ignore-case on
+set completion-query-items 200
+set page-completions on
+
+set menu-complete-display-prefix on
+set completion-prefix-display-length 3
+set completion-map-case on
+
+############################################################
+# keymaps for command mod  (after Esc)
+set keymap  vi-command
+#insert the agruments from the last command
+#"p": "i !!*\r"
+"gg": beginning-of-history
+"G": end-of-history
+
+set keymap  vi-insert
+#"jk": vi-movement-mode
+#"\C-j\C-k": vi-movement-mode
+"ii": vi-movement-mode
+"шш": vi-movement-mode
+#"\C-i\C-i": vi-movement-mode
+"\C-l": clear-screen
+
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+
 #These two will make Ctrl-j and Ctrl-k to cycle through the available completions. 
-#Cn"\C-l": clear-screenontrol-j: menu-complete
-#"\C-l": clear-screen
-#TAB: menu-complete
-#"\C-k": menu-complete-backward
+TAB: menu-complete
+"\C-j": menu-complete
+"\C-k": menu-complete-backward
+
+#"p": self-insert
+

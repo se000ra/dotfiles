@@ -56,7 +56,7 @@ semicolon warp,end
 
 # Zoom to the current window
 w windowzoom
-c cursorzoom 50 50
+c cursorzoom 10 150
 a wrap,wrap,cursorzoom 250 250
 s wrap,cursorzoom 100 100
 d wrap,cursorzoom 20 30

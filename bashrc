@@ -13,12 +13,20 @@ HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+#[ -d ~/.history ] || mkdir --mode=0700 ~/.history
+#[ -d ~/.history ] && chmod 0700 ~/.history
+#HISTFILE=~/.history/history.$$
+# close any old history file by zeroing HISTFILESIZE  
+#HISTFILESIZE=0 
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
-HISTFILESIZE=20000
+HISTSIZE=1000000000
+HISTFILESIZE=200000000
 HISTTIMEFORMAT="%F %T %t"
+HISTIGNORE='history'
 #write (-a) and then re-read (-n) the history each time 
-PROMPT_COMMAND="history -a; history -n"
+#PROMPT_COMMAND="history -na"
+#PROMPT_COMMAND="history -a; history -c; history -r"
 
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -126,24 +134,40 @@ prompt_command () {
         let CUT=${#CURENT_PATH}-35
         CURENT_PATH="…$(echo -n $PWD | sed -e "s/\(^.\{$CUT\}\)\(.*\)/\2/")"
     fi
- 
+
+    # Virtual Env
+    local VEN=""
+    if [[ $VIRTUAL_ENV != "" ]]
+       then
+           #VEN=" ${RED}(${VIRTUAL_ENV##*/})"
+           VEN="(${VIRTUAL_ENV##*/})"
+    else
+       VEN=''
+    fi
+
     #local BC="╚("#₪₪├i┐└┴┬├─╟┼─╼卐→│└──>─■_╼ )─╼╰ _╭echo "⮀ ± ⭠ ➦ ✔ ✘ ⚡"(
     #local BC="╚═"╞╟╚╔╩╦╠═ ╬⇐ ╬⇒ …»»☭   ╾──╼>      ╰▬═►
     local TC="╭"
     local BC="╰╼ "
 
     PROMPT="${TIME} ${GP} $ERRPROMPT ${CURENT_PATH}"
+    PROMPT="${TIME}${VEN} ${GP} $ERRPROMPT ${CURENT_PATH}"
     local SEPARATOR=""
     let FILLS=${COLUMNS}-${#PROMPT}+0-2
     for (( i=0; i<$FILLS; i++ )) do
         SEPARATOR=$SEPARATOR"─"
     done
 
-    TOP_LINE="${DKGRAY}${TC}(${CYAN}${TIME}${DKGRAY})${RED}$ERRPROMPT${GREEN}${GP} ${GRAY}${CURENT_PATH} ${DKGRAY}${SEPARATOR}"
+    #TOP_LINE="${DKGRAY}${TC}(${CYAN}${TIME}${DKGRAY})${RED}$ERRPROMPT${GREEN}${GP} ${GRAY}${CURENT_PATH} ${DKGRAY}${SEPARATOR}"
+    TOP_LINE="${DKGRAY}${TC}(${CYAN}${TIME}${DKGRAY})${RED}${VEN}$ERRPROMPT${GREEN}${GP} ${GRAY}${CURENT_PATH} ${DKGRAY}${SEPARATOR}"
     local BOTTOM_LINE="${DKGRAY}${BC} ${DEFAULT}"
     export PS1="${TOP_LINE}\n${BOTTOM_LINE}"
 }
 PROMPT_COMMAND=prompt_command
+
+#export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+#export PROMPT_COMMAND="history -a; $PROMPT_COMMAND; history -n"
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND; "
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -186,10 +210,11 @@ fi
 [ -z "$TMUX" ] && export TERM=xterm-256color
 export EDITOR=vim
 
-PATH=$PATH:$HOME/src/android-sdk-linux/tools # Androd sdk
-PATH=$PATH:$HOME/src/android-sdk-linux/platform-tools # Androd sdk
+#PATH=$PATH:$HOME/src/android-sdk-linux/tools # Androd sdk
+#PATH=$PATH:$HOME/src/android-sdk-linux/platform-tools # Androd sdk
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 PATH=$PATH:$HOME/bin # Add my bin to PATH for scripting
+PATH=$PATH:$HOME/.local/bin # Add my bin to PATH for scripting
 #раскрашиваем man
 man() {
 env \
@@ -202,6 +227,13 @@ env \
     LESS_TERMCAP_us=$(printf "\e[1;32m") \
         man "$@"
 }
+#красим less
+export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
+
+#заменяем less на vimpager
+#export PAGER=/usr/local/bin/vimpager
+
 #оключаем XON/XOFF flow control
 stty -ixon
 
@@ -212,11 +244,72 @@ stty -ixon
 source /home/van/src/todo.txt-cli/todo_completion
 complete -F _todo t
 export TODOTXT_DEFAULT_ACTION=ls
+export TODO_DIR="/home/van/pr/todo"
+
+# test find and kill http://brettterpstra.com/2009/11/14/fk-a-useful-bash-function/
+fp () { #find and list processes matching a case-insensitive partial-match string
+        #ps Ao pid,comm|awk '{match($0,/[^\/]+$/); print substr($0,RSTART,RLENGTH)": "$1}'|grep -i $1|grep -v grep
+        ps -eo pid,command|awk '{match($0,/[^\/]+$/); print substr($0,RSTART,RLENGTH)": "$1}'|grep -i $1|grep -v grep
+}
+
+fk () { # build menu to kill process
+    IFS=$'\n'
+    PS3='Kill which process? '
+    select OPT in $(fp $1) "Cancel"; do
+        if [ $OPT != "Cancel" ]; then
+            kill $(echo $OPT|awk '{print $NF}')
+        fi
+        break
+    done
+    unset IFS
+}
+
 
 # view images in the console
 #w3mimg () { w3m -o imgdisplay=/usr/lib/w3m/w3mimgdisplay $1 }
 
-# добавляем алиасы на лету http://bbs.archlinux.org/viewtopic.php?id=151547
+#красим cheat sheets
+export CHEATCOLORS=true
+
+#add CLI apps name to window title http://www.davidpashley.com/articles/xterm-titles-with-bash/
+#trap 'echo -e "\e]0;$BASH_COMMAND\007"' DEBUG
+
+# http://madebynathan.com/2011/10/04/a-nicer-way-to-use-xclip/
+# A shortcut function that simplifies usage of xclip.
+# - Accepts input from either stdin (pipe), or params.
+# ------------------------------------------------
+cb() {
+  local _scs_col="\e[0;32m"; local _wrn_col='\e[1;31m'; local _trn_col='\e[0;33m'
+  # Check that xclip is installed.
+  if ! type xclip > /dev/null 2>&1; then
+    echo -e "$_wrn_col""You must have the 'xclip' program installed.\e[0m"
+  # Check user is not root (root doesn't have access to user xorg server)
+  elif [[ "$USER" == "root" ]]; then
+    echo -e "$_wrn_col""Must be regular user (not root) to copy a file to the clipboard.\e[0m"
+  else
+    # If no tty, data should be available on stdin
+    if ! [[ "$( tty )" == /dev/* ]]; then
+      input="$(< /dev/stdin)"
+    # Else, fetch input from params
+    else
+      input="$*"
+    fi
+    if [ -z "$input" ]; then  # If no input, print usage message.
+      echo "Copies a string to the clipboard."
+      echo "Usage: cb <string>"
+      echo "       echo <string> | cb"
+    else
+      # Copy input to clipboard
+      echo -n "$input" | xclip -selection c
+      # Truncate text for status
+      if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\e[0m"; fi
+      # Print status.
+      echo -e "$_scs_col""Copied to clipboard:\e[0m $input"
+    fi
+  fi
+}
+
+# добавляем алиасы налету http://bbs.archlinux.org/viewtopic.php?id=151547
 alias+ () { 
     if [ $# -eq 2 ]; then 
         echo "alias $1=\"$2\" #alias+" >> ~/.bashrc;
@@ -265,6 +358,17 @@ alias gti='git'
 alias g='git'
 complete -F _git g
 #-----------
+# Aliases / functions leveraging the cb() function
+# ------------------------------------------------
+# Copy contents of a file
+function cbf() { cat "$1" | cb; }  
+# Copy SSH public key
+#alias cbssh="cbf ~/.ssh/id_rsa.pub"  
+# Copy current working directory
+#alias cbwd="pwd | cb"  
+# Copy most recent command in bash history
+alias cbh="cat $HISTFILE | tail -n 1 | cb"
+#-----------
 alias untar="tar -xf" #alias+
 alias agi="sudo apt-get install" #alias+
 alias aguu="sudo apt-get update && sudo apt-get upgrade" #alias+
@@ -277,7 +381,7 @@ alias pg="/bin/ps aux | grep" #alias+
 #alias gpush="git push origin master" #alias+
 alias mkdir="mkdir -pv" #alias+
 alias srb="source ~/.bashrc" #alias+
-alias stp="mypo &" #alias+
+#alias stp="mypo &" #alias+
 alias pingg="ping -c 3 google.com" #alias+
 alias cal="calcurse" #alias+
 alias du="ncdu" #alias+
@@ -286,9 +390,33 @@ alias t="todo.sh -d /home/van/pr/todo/todo.cfg" #alias+
 alias punch="python /home/van/src/punch-time-tracking-1.3/Punch.py" #alias+
 alias ta="t add" #alias+
 alias pin="punch in" #alias+
-#alias pin="python /home/van/src/punch-time-tracking-1.3/Punch.py in" #alias+
 alias r="ranger" #alias+
-alias tt="type" #alias+
+alias tt="van_todo_curses" #alias+
 alias mkdri="mkdir" #alias+
 alias vimes="vim -u /home/van/dotfiles/essential.vim" #alias+
 alias spi="sudo pip install" #alias+
+alias yff="youtube-dl -f 18 -cwti " #alias+
+alias auext="mplayer -dumpaudio -dumpfile " #alias+
+alias torba="sh /home/van/soft/torbr/tor-browser_en-US/start-tor-browser" #alias+
+alias s="selfstats" #alias+
+alias agr="alias | grep " #alias+
+alias pipu="pip install --upgrade --user " #alias+
+alias u="history -n" #alias+
+alias chbook="chmod 644 /media/mystaff/flibook/*" #alias+
+#alias yfa="yff -x $(xclip -o)" #alias+
+#alias yfd="yff $(xclip -o)" #alias+
+alias trd="transmission-daemon -g /home/van/.config/transmission" #alias+
+alias trc="transmission-remote-cli" #alias+
+alias v="vim" #alias+
+alias sub="subliminal -l en ru -- " #alias+
+alias hh="history 10" #alias+
+alias vless="vim -u /usr/share/vim/vim71/macros/less.vim" #alias+
+alias vless="vim -u /home/van/.vim/bundle/vim-colorschemes/colors/less.vim" #alias+
+alias yd="youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s'" #alias+
+alias yds="youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s'" #alias+
+alias yda="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s'" #alias+
+alias yda="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive'" #alias+
+alias ydam="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive' --dateafter now-1months" #alias+
+alias yd="youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive'" #alias+
+alias trdc="trd; trc" #alias+
+alias ttt="vim /home/van/pr/todo/todo.txt" #alias+

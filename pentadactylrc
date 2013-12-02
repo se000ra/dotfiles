@@ -4,27 +4,42 @@ loadplugins '\.(js|penta)$'
   set guioptions=bCs
   set noerrorbells
   set novisualbell
+  nmap , <Leader>
+
   " highlight all search matches, not just the first
   set hlfind
 " find as you type
   set incfind
 " only consider case if an upper case char is used
   set findcase=smart
+" temp fix for http://code.google.com/p/dactyl/issues/detail?id=1055
+  set scrollsteps=1
 " list closed tabs
   nmap <Leader>u :undo<Space>
-"set passkeys+='www.google.com/reader':jkAnpXaOslSDvmerfu12/a?<CR>,gh,gs,gS,gu
-"set passkeys+='www.google.com/reader':jknpNPXo<CR><space>O-=slSDvtmAeghasufFTdrfu12/a?
-set passkeys+='www.google.com/reader':npNPXo<CR><space>O-=sDtmAgsuTru12/a?
-set passkeys+='bazqux.com':np<CR><space>ugxlLmAaov/f12345h
+"set passkeys+='theoldreader.com':NPXOCEghalstcr/a<space>Anpvxlsm12
+set passkeys+='feedly.com':gmalJ/r?npovMmxsbV
 
 " Pattern for next/prev links
 set nextpattern=\\След,\\bdalej,\\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b
 set previouspattern=\\Пред,\\bwstecz,\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$
 
+command! -description='watch yanked yt url in mplayer' myyt js ex.run("mplayer -cache-min 1 $(youtube-dl -g --max-quality 37 $(xclip -o)) &")
+
+"command! myddddd -description='download youtube clip'  :yank buffer.URL.asciiSpec | js ex.run("youtube-dl -f 18 -cwti $(xclip -o) &")
+"command! myd -description='download youtube clip'  :js ex.run("youtube-dl -f 18 -cwti $(xclip -o) &")
+"command! myddf -description='download youtube clip'  :js ex.run("youtube-dl -f 18 -cwti $(xclip -o) ")
+
+
+command! -description='download youtube clip' myd  :js ex.run("youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' $(xclip -o) &")
+
+:com! search-selection,ss -bang -nargs=? -complete search
+        \ -js commands.execute((bang ? "open "  : "tabopen " )
+        \ + args + " "   + buffer.currentWord)
+
 "MAPPING
-  nmap H :tabprevious<CR>
-  nmap L :tabnext<CR>
-  nmap <Leader>r -ex open www.google.com/reader
+  "nmap H :tabprevious<CR>
+  "nmap L :tabnext<CR>
+  nmap <Leader>r -ex open cloud.feedly.com
 
 "yrillic letters:
 
@@ -80,3 +95,5 @@ map ц w
 map ч x
 map н y
 map я z
+
+" vim: set ft=pentadactyl
