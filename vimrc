@@ -10,6 +10,7 @@ set ttymouse=xterm2
 let mapleader = ","
 noremap \ ,
 " Шпаргалка {{{1
+" todo разобраться с git merge (add from master)
 " ---   Folding  ----
 " za - Toggle       zA - recursively
 " zM - Close all    zR - Open all
