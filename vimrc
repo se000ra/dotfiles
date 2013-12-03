@@ -46,7 +46,7 @@ Bundle "tpope/vim-fugitive"
 Bundle 'airblade/vim-gitgutter'
 Bundle 'gitv'
 "============= "Python" =============
-Bundle "python.vim--Vasiliev"
+Bundle "https://github.com/hdima/python-syntax"
 "Bundle "klen/python-mode"
 "Bundle 'ivanov/vim-ipython'
 Bundle 'davidhalter/jedi-vim'
@@ -91,6 +91,7 @@ set linebreak
 
 " Включение подсветки синтаксиса
 syntax on
+autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
 " Отключение оповещения морганием и звуком
 set novisualbell
