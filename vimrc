@@ -11,9 +11,7 @@ let mapleader = ","
 noremap \ ,
 
 " Шпаргалка {{{1
-" todo setup git plugins 
-" todo make vimset section like castro vimrc
-" todo разобраться с git merge (add from master)
+"  
 " ---   Folding  ----
 " za - Toggle       zA - recursively
 " zM - Close all    zR - Open all
@@ -58,9 +56,9 @@ Bundle "scrooloose/nerdcommenter"
 Bundle "Lokaltog/vim-easymotion"
 Bundle 'SirVer/ultisnips'
 Bundle "http://github.com/Shougo/neocomplete.vim.git"
-Bundle 'Shougo/neosnippet'
+"Bundle 'Shougo/neosnippet'
 "Bundle 'honza/vim-snippets'
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 Bundle "mattn/emmet-vim"
 Bundle "surround.vim"
 Bundle "aperezdc/vim-template"
@@ -324,6 +322,7 @@ set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙ
 inoremap ii <Esc>
 vnoremap ii <Esc>
 vnoremap шш <Esc>
+inoremap шш <Esc>
 
 "--- "Fast copy" ------{{{
 " после unite registers ring и copyQ все это не нужно
@@ -639,6 +638,9 @@ let g:EasyMotion_leader_key = '<leader><leader>'
 "}}}
 "----- "davidhalter/jedi-vim"
 "{{{
+"отключаем проверка YCM
+let g:jedi#completions_enabled = 0
+
 let g:jedi#popup_on_dot = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
@@ -673,65 +675,65 @@ let g:UltiSnipsListSnippets = '<c-o>'
 ""}}}
 "---- "Shougo/neocomplete"
 "{{{
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+"" Disable AutoComplPop.
+"let g:acp_enableAtStartup = 0
+"" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+"" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+    "\ 'default' : '',
+    "\ 'vimshell' : $HOME.'/.vimshell_hist',
+    "\ 'scheme' : $HOME.'/.gosh_completions'
+        "\ }
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+"" Define keyword.
+"if !exists('g:neocomplete#keyword_patterns')
+    "let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Plugin key-mappings.
-"inoremap <expr><C-g>     neocomplete#undo_completion()
-"inoremap <expr><C-l>     neocomplete#complete_common_string()
+"" Plugin key-mappings.
+""inoremap <expr><C-g>     neocomplete#undo_completion()
+""inoremap <expr><C-l>     neocomplete#complete_common_string()
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplete#close_popup()
-"inoremap <expr><C-e>  neocomplete#cancel_popup()
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+  "return neocomplete#close_popup() . "\<CR>"
+  "" For no inserting <CR> key.
+  ""return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+""inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+""inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+""inoremap <expr><C-y>  neocomplete#close_popup()
+""inoremap <expr><C-e>  neocomplete#cancel_popup()
+"" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+""autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
+"if !exists('g:neocomplete#force_omni_input_patterns')
+    "let g:neocomplete#force_omni_input_patterns = {}
+"endif
 autocmd FileType python setlocal omnifunc=jedi#completions
-let g:jedi#auto_vim_configuration = 0
-let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+"let g:jedi#auto_vim_configuration = 0
+"let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
 "}}}
 ""---- "Shougo/neosnippet"
@@ -762,9 +764,21 @@ let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*f
 "---- "Valloric/YouCompleteMe"
 ""{{{
 "let completeopt=menu
-"let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_add_preview_to_completeopt = 0
 ""let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_complete_in_comments_and_strings = 1
-"let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+
+"fix https://github.com/Valloric/YouCompleteMe/issues/526
+inoremap <expr><BS> pumvisible()? "\<C-y>\<BS>" : "\<BS>"
+inoremap <expr><C-h> pumvisible()? "\<C-y>\<C-h>" : "\<C-h>"
+
+"TODO Set xrange completion in python
+let g:ycm_seed_identifiers_with_syntax = 1
+"TODO set mapping with UltiSnips
+
+"let g:ycm_server_use_vim_stdout = 1
+"let g:ycm_server_log_level = 'debug'
+
 ""}}}
 "    end of PLUGINS setup   }}}
