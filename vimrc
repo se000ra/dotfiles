@@ -13,7 +13,6 @@ noremap \ ,
 " Шпаргалка {{{1
 " todo setup git plugins 
 " todo make vimset section like castro vimrc
-"
 " todo разобраться с git merge (add from master)
 " ---   Folding  ----
 " za - Toggle       zA - recursively
