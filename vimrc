@@ -37,6 +37,7 @@ Bundle "gmarik/vundle"
 Bundle 'unite.vim'
 Bundle "http://github.com/Shougo/vimproc.vim.git"
 Bundle "ctrlp.vim"
+Bundle 'tacahiroy/ctrlp-funky'
 Bundle 'Tagbar'
 "============= "VIEW" =============
 Bundle "flazz/vim-colorschemes"
@@ -93,7 +94,6 @@ set linebreak
 
 " Включение подсветки синтаксиса
 syntax on
-autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
 " Отключение оповещения морганием и звуком
 set novisualbell
@@ -610,11 +610,13 @@ nnoremap <space>s :Unite -quick-match buffer<cr>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 "set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|gh|svn)$'
-
 " Search and open buffer, files, recent
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>p :CtrlP<CR>
 nnoremap <leader>f :CtrlPMRUFiles<CR>
+" extends 
+let g:ctrlp_extensions = ['funky']
+"nnoremap <Leader>fu :CtrlPFunky<Cr>
 "}}}
 "----- "tagbar.vim"
 "{{{
@@ -657,6 +659,14 @@ let g:jedi#documentation_command = "K"
 ""let g:jedi#rename_command = "<leader>r"
 "занятно под ranger
 let g:jedi#rename_command = "<leader>R"
+"}}}
+"------- "python-syntax"
+"{{{
+"let python_version_2 = 1
+let g:python_version_2 = 1
+autocmd BufRead,BufNewFile *.py let python_highlight_all=1
+autocmd BufRead,BufNewFile *.py :Python2Syntax
+"
 "}}}
 "------- "SirVer/ultisnips"
 """{{{
