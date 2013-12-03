@@ -16,7 +16,9 @@ noremap \ ,
 " za - Toggle       zA - recursively
 " zM - Close all    zR - Open all
 " zx - udate all
-" 
+"TODO setup map for git plugins 
+"TODO unite vs ctrp 
+"----------------------
 " Узнать из какого файла переменная была установлена посл. раз
 "   :verbose set переменная
 " Список всех переменных
@@ -55,7 +57,7 @@ Bundle 'Gundo'
 Bundle "scrooloose/nerdcommenter"
 Bundle "Lokaltog/vim-easymotion"
 Bundle 'SirVer/ultisnips'
-Bundle "http://github.com/Shougo/neocomplete.vim.git"
+"Bundle "http://github.com/Shougo/neocomplete.vim.git"
 "Bundle 'Shougo/neosnippet'
 "Bundle 'honza/vim-snippets'
 Bundle 'Valloric/YouCompleteMe'
