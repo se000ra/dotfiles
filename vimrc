@@ -56,6 +56,7 @@ Bundle 'davidhalter/jedi-vim'
 "============= "Coding" =============
 Bundle 'Gundo'
 Bundle "scrooloose/nerdcommenter"
+Bundle 'delimitMate.vim'
 Bundle "Lokaltog/vim-easymotion"
 Bundle 'SirVer/ultisnips'
 "Bundle "http://github.com/Shougo/neocomplete.vim.git"
@@ -94,7 +95,7 @@ set linebreak
 
 " Включение подсветки синтаксиса
 syntax on
-
+let python_highlight_all = 1
 " Отключение оповещения морганием и звуком
 set novisualbell
 
@@ -663,9 +664,13 @@ let g:jedi#rename_command = "<leader>R"
 "------- "python-syntax"
 "{{{
 "let python_version_2 = 1
-let g:python_version_2 = 1
-autocmd BufRead,BufNewFile *.py let python_highlight_all=1
-autocmd BufRead,BufNewFile *.py :Python2Syntax
+"let g:python_version_2 = 1
+"autocmd BufRead,BufNewFile,BufEnter *.py let python_highlight_all = 1
+autocmd BufRead,BufNewFile,BufEnter *.py let python_version_2 = 1
+autocmd BufRead,BufNewFile,BufEnter *.py :Python2Syntax
+"autocmd BufRead,BufNewFile *.py :Python2Syntax
+"autocmd BufRead,BufNewFile *.py let b:python_version_2 = 1
+"autocmd FileType python :Python2Syntax
 "
 "}}}
 "------- "SirVer/ultisnips"
