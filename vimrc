@@ -16,8 +16,6 @@ noremap \ ,
 " za - Toggle       zA - recursively
 " zM - Close all    zR - Open all
 " zx - udate all
-"TODO setup map for git plugins 
-"TODO unite vs ctrp 
 "----------------------
 " Узнать из какого файла переменная была установлена посл. раз
 "   :verbose set переменная
@@ -29,6 +27,7 @@ noremap \ ,
 "   :map
 " Показывает значения всех опций, которые отличаются от настроек по умолчанию.
 "   :set
+"   :help index             map defined by vim itself
 "}}}
 
 " Установленные плагины и их зависимости {{{1
@@ -49,7 +48,7 @@ Bundle "tpope/vim-fugitive"
 Bundle 'airblade/vim-gitgutter'
 Bundle 'gitv'
 "============= "Python" =============
-Bundle "https://github.com/hdima/python-syntax"
+"Bundle "https://github.com/hdima/python-syntax"
 "Bundle "klen/python-mode"
 "Bundle 'ivanov/vim-ipython'
 Bundle 'davidhalter/jedi-vim'
@@ -666,8 +665,10 @@ let g:jedi#rename_command = "<leader>R"
 "let python_version_2 = 1
 "let g:python_version_2 = 1
 "autocmd BufRead,BufNewFile,BufEnter *.py let python_highlight_all = 1
-autocmd BufRead,BufNewFile,BufEnter *.py let python_version_2 = 1
-autocmd BufRead,BufNewFile,BufEnter *.py :Python2Syntax
+"
+"autocmd BufRead,BufNewFile,BufEnter *.py let python_version_2 = 1
+"autocmd BufRead,BufNewFile,BufEnter *.py :Python2Syntax
+
 "autocmd BufRead,BufNewFile *.py :Python2Syntax
 "autocmd BufRead,BufNewFile *.py let b:python_version_2 = 1
 "autocmd FileType python :Python2Syntax
@@ -749,7 +750,7 @@ let g:UltiSnipsListSnippets = '<c-o>'
 "if !exists('g:neocomplete#force_omni_input_patterns')
     "let g:neocomplete#force_omni_input_patterns = {}
 "endif
-autocmd FileType python setlocal omnifunc=jedi#completions
+"autocmd FileType python setlocal omnifunc=jedi#completions
 "let g:jedi#auto_vim_configuration = 0
 "let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
@@ -790,7 +791,7 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1
 "fix https://github.com/Valloric/YouCompleteMe/issues/526
 inoremap <expr><BS> pumvisible()? "\<C-y>\<BS>" : "\<BS>"
 inoremap <expr><C-h> pumvisible()? "\<C-y>\<C-h>" : "\<C-h>"
-
+let g:ycm_key_invoke_completion = '<C-m>'
 "TODO Set xrange completion in python
 let g:ycm_seed_identifiers_with_syntax = 1
 "TODO set mapping with UltiSnips
