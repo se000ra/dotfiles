@@ -43,6 +43,7 @@ Bundle "flazz/vim-colorschemes"
 "============= "Productivity" =============
 Bundle "vimwiki"
 Bundle 'http://github.com/teranex/vimwiki-tasks.git'
+Bundle 'farseer90718/vim-taskwarrior'
 "============= "Git" =============
 Bundle "tpope/vim-fugitive"
 Bundle 'airblade/vim-gitgutter'
@@ -57,6 +58,7 @@ Bundle 'Gundo'
 Bundle "scrooloose/nerdcommenter"
 Bundle 'delimitMate.vim'
 Bundle "Lokaltog/vim-easymotion"
+Bundle "http://github.com/justinmk/vim-sneak.git"
 Bundle 'SirVer/ultisnips'
 "Bundle "http://github.com/Shougo/neocomplete.vim.git"
 "Bundle 'Shougo/neosnippet'
@@ -308,8 +310,8 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 autocmd! BufWritePost vimrc source %
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-"cmap w!! w !sudo tee >/dev/null %
-cmap W w !sudo tee % >/dev/null<CR>
+cmap w!! w !sudo tee >/dev/null %
+"cmap W w !sudo tee % >/dev/null<CR>
 
 " mute search highligting
 nnoremap <silent> <space>l :<C-u>nohlsearch<CR><C-l>
@@ -322,10 +324,11 @@ map <leader>r :call RangerChooser()<CR>
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
 " just subsitute ESC with , jk и в рус раскл бб ол не работает
-inoremap ii <Esc>
-vnoremap ii <Esc>
-vnoremap шш <Esc>
-inoremap шш <Esc>
+" перенес esc/ctr на capslock
+"inoremap ii <Esc>
+"vnoremap ii <Esc>
+"vnoremap шш <Esc>
+"inoremap шш <Esc>
 
 "--- "Fast copy" ------{{{
 " после unite registers ring и copyQ все это не нужно
@@ -352,22 +355,13 @@ inoremap <F3> :set invpaste paste?<CR>
 set pastetoggle=<F3>
 set showmode
 
- "Вставка таймстампа 
-noremap <F6> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
-inoremap <F6> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: 
-
-noremap <F7> i<C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**<Esc>o
-inoremap <F7> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>: break**
 " Выполнение/Открытие файла
 "nmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>
 "vmap <F5> <esc>:call <SID>OpenFileInDefaultApp()<cr>i
 "imap <F5> <esc><esc>:call <SID>OpenFileInDefaultApp()<cr>i
 
 " Просмотр списка буферов (plugin-fuzzyfinder)
-"map <F6> :FufBuffer<cr>
-"vmap <F6> <esc>:FufBuffer<cr>
-"imap <F6> <esc>:FufBuffer<cr>
-
+nnoremap <F7> :execute 'TW '.(exists('b:filter') ? b:filter : '').' long'<CR>
 
 " Список файлов в текущей директории (plugin-fuzzyfinder)
 "nmap <F7> <esc>:FufFile<cr>
@@ -637,9 +631,11 @@ let g:pymode_rope = 0
 "Key for breakpoint
 "let g:pymode_breakpoint_key = 'B' 
 "}}}
-"--- "vim-easymotion"
+"--- "vim-sneak"
 "{{{
-let g:EasyMotion_leader_key = '<leader><leader>'
+let g:sneak#streak = 1
+nmap f <Plug>SneakForward
+nmap F <Plug>SneakBackward
 "}}}
 "----- "davidhalter/jedi-vim"
 "{{{
