@@ -12,6 +12,7 @@ exec copyq
 exec keynav
 exec gxneur
 exec start_selfspy
+exec xinitrc_run
 
 #возврат на вокспейс 
 workspace_auto_back_and_forth yes

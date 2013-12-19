@@ -24,8 +24,8 @@ set keymap  vi-command
 set keymap  vi-insert
 #"jk": vi-movement-mode
 #"\C-j\C-k": vi-movement-mode
-"ii": vi-movement-mode
-"шш": vi-movement-mode
+#"ii": vi-movement-mode
+#"шш": vi-movement-mode
 #"\C-i\C-i": vi-movement-mode
 "\C-l": clear-screen
 

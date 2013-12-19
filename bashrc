@@ -416,7 +416,9 @@ alias yd="youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload
 alias yds="youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s'" #alias+
 alias yda="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s'" #alias+
 alias yda="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive'" #alias+
-alias ydam="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive' --dateafter now-1months" #alias+
+alias ydam="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive' --dateafter now-1months" #alias+ 
+alias ydaw="youtube-dl -f 18 -cwix -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive' --dateafter now-1weeks" #alias+
 alias yd="youtube-dl -f 18 -cwi -o '/home/van/mystaff/dvid/%(uploader)s-%(upload_date)s-%(title)s-%(id)s.%(ext)s' --download-archive '/home/van/mystaff/dvid/.yout_dl_archive'" #alias+
 alias trdc="trd; trc" #alias+
 alias ttt="vim /home/van/pr/todo/todo.txt" #alias+
+alias xcp="xcape -e 'Control_L=Escape'" #alias+
